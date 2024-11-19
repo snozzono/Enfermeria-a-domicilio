@@ -13,7 +13,7 @@ public class ProcedimientoDAO {
     {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "insert into tbProcedimiento (id_pr,precio,nombre,desc) values(?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
             
@@ -34,7 +34,7 @@ public class ProcedimientoDAO {
     public boolean modificarProc(Procedimiento pr) {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "update tbProcedimiento set Precio=?,Nombre=?,Desc=? where Id_pr=?";
             PreparedStatement ps = con.prepareStatement(query);
 

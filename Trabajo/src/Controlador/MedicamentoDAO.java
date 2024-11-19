@@ -14,7 +14,7 @@ public class MedicamentoDAO {
     {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "insert into tbMedicamento (id_med,precio,cant,nombre_med) values(?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
             
@@ -35,7 +35,7 @@ public class MedicamentoDAO {
     public boolean modificarMed(Medicamento med) {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "update tbMedicamento set Precio=?,Cant=?,Nombre_med=? where Id_med=?";
             PreparedStatement ps = con.prepareStatement(query);
 

@@ -1,7 +1,12 @@
 
 package Vista;
 
+import Controlador.*;
+import Controlador.test.VentanaPrincipalIngresar;
+import javax.swing.JOptionPane;
+
 public class VentanaPrincipal extends javax.swing.JFrame {
+    VentanaPrincipalIngresar bd = new VentanaPrincipalIngresar();
     
     public VentanaPrincipal() {
         initComponents();
@@ -108,10 +113,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         if (txtUsuario.getText().length() > 0 && txtContraseña.getText().length() > 0) {
-            
+            if (bd.Conectarse(txtUsuario.getText(), txtContraseña.getText())) {
+                JOptionPane.showMessageDialog(this, "Conectado");
+            }
+  ;
         }
         else {
-            
+            JOptionPane.showMessageDialog(this, "Ingresa un usuario");
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -119,6 +127,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+        public static void main(String[] args) {
+        // TODO code application logic here
+       VentanaPrincipal v = new VentanaPrincipal(); 
+       v.setVisible(true);
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnSalir;

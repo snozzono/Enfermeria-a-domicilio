@@ -3,13 +3,13 @@ package Modelo;
 
 public class Procedimiento {
     int id_pr, precio;
-    String nombre, desc;
+    String nombre, descr;
 
     public Procedimiento(int id_pr, int precio, String nombre, String desc) {
         this.id_pr = id_pr;
         this.precio = precio;
         this.nombre = nombre;
-        this.desc = desc;
+        this.descr = desc;
     }
 
     public int getId_pr() {
@@ -37,11 +37,11 @@ public class Procedimiento {
     }
 
     public String getDesc() {
-        return desc;
+        return descr;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.descr = desc;
     }
     
     

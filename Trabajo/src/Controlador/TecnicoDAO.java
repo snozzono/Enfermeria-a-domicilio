@@ -13,8 +13,8 @@ public class TecnicoDAO {
     {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
-            String query = "insert into tbAdministrador (run_tec,usuario,passwrd) values(?,?,?)";
+            Connection con = Controlador.Conexion.getConexion();
+            String query = "insert into tbTecnico (run_tec,usuario,passwrd) values(?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
             
             ps.setInt(1, tec.getRun_tec());
@@ -33,7 +33,7 @@ public class TecnicoDAO {
     public boolean modificarTecnico(Tecnico tec) {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "update tbTecnico set Usuario=?,Passwrd=? where Run_tec=?";
             PreparedStatement ps = con.prepareStatement(query);
 
@@ -44,9 +44,7 @@ public class TecnicoDAO {
             resultado = ps.executeUpdate() == 1;
             ps.close();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;

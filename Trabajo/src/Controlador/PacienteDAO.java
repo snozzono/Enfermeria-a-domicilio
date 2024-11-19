@@ -13,7 +13,7 @@ public class PacienteDAO {
     {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "insert into tbPaciente (run_pac,nombre_p,diagn) values(?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
             
@@ -33,7 +33,7 @@ public class PacienteDAO {
     public boolean modificarPaciente(Paciente pac) {
         boolean resultado = false;
         try {
-            Connection con = controlador.Conexion.getConexion();
+            Connection con = Controlador.Conexion.getConexion();
             String query = "update tbPaciente set Nombre_p=?,Diagn=? run_pac=?";
             PreparedStatement ps = con.prepareStatement(query);
 
