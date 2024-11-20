@@ -11,6 +11,10 @@ public class Tecnico {
         this.passwrd = passwrd;
     }
 
+    public Tecnico(String usuario, String passwrd) {
+        this.usuario = usuario;
+        this.passwrd = passwrd;    }
+
     public int getRun_tec() {
         return run_tec;
     }
