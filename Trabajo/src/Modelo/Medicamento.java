@@ -1,23 +1,22 @@
-
 package Modelo;
 
-public class Medicamento {
-    int id_med, precio, cant;
-    String nombre_med;
+import java.sql.Date;
 
-    public Medicamento(int id_med, int precio, int cant, String nombre_med) {
+public class Medicamento {
+
+    int id_med, cant;
+    String nombre_med;
+    Date tomar;
+
+    public Medicamento(int id_med, int cant, String nombre_med, Date tomar) {
         this.id_med = id_med;
-        this.precio = precio;
         this.cant = cant;
         this.nombre_med = nombre_med;
+        this.tomar = tomar;
     }
 
     public int getId_med() {
         return id_med;
-    }
-
-    public int getPrecio() {
-        return precio;
     }
 
     public int getCant() {
@@ -28,12 +27,12 @@ public class Medicamento {
         return nombre_med;
     }
 
-    public void setId_med(int id_med) {
-        this.id_med = id_med;
+    public Date getTomar() {
+        return tomar;
     }
 
-    public void setPrecio(int precio) {
-        this.precio = precio;
+    public void setId_med(int id_med) {
+        this.id_med = id_med;
     }
 
     public void setCant(int cant) {
@@ -43,6 +42,9 @@ public class Medicamento {
     public void setNombre_med(String nombre_med) {
         this.nombre_med = nombre_med;
     }
-    
-    
+
+    public void setTomar(Date tomar) {
+        this.tomar = tomar;
+    }
+
 }

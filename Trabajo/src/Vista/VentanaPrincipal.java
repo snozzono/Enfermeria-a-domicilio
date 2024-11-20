@@ -131,13 +131,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         TecnicoDAO tecnoDAO = new TecnicoDAO();
 
         if (admDAO.buscarAdm(user, psswd) != null) {
-            admDAO.ingresarAdmin(admin);
             JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como admin");
             VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
             VAIE.setVisible(true);
             dispose();
         } else if (tecnoDAO.buscarTec(user, psswd) != null) {
-            tecnoDAO.ingresarTecnico(tecno);
             JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
             VentanaPaciente VP = new VentanaPaciente();
             VP.setVisible(true);

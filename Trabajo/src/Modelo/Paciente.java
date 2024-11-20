@@ -11,6 +11,10 @@ public class Paciente {
         this.diagn = diagn;
     }
 
+    public Paciente(int run_pac) {
+        this.run_pac = run_pac;
+    }
+
     public int getRun_pac() {
         return run_pac;
     }

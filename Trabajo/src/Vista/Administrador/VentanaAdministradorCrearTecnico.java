@@ -95,11 +95,11 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(53, 53, 53)
+                .addGap(67, 67, 67)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(85, 85, 85)
+                .addGap(71, 71, 71)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -125,7 +125,7 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         
         
         if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && txtContraseña.getText().length() > 0) {
-            if (tecDAO.buscarTec(usuario, usuario) == null) {
+            if (tecDAO.buscarTec(usuario, contraseña) == null) {
                 tecDAO.ingresarTecnico(tec);
                 JOptionPane.showMessageDialog(this,"Tecnico añadido correctamente");
                 VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();

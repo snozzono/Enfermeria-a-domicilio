@@ -1,9 +1,9 @@
-
 package Controlador;
 
 import Modelo.Paciente;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,11 +44,31 @@ public class PacienteDAO {
             resultado = ps.executeUpdate() == 1;
             ps.close();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;
     }
+    
+        public Paciente buscarPac(int rut) {
+            Paciente paciente = null;
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "select run_pac from tbPaciente where run_pac=?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, rut);
+            
+            ResultSet rs = ps.executeQuery();
+                        
+            while (rs.next()) {
+                paciente = new Paciente(rs.getInt("run_pac"));
+            }
+            ps.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return paciente;
+    }
+    
 }

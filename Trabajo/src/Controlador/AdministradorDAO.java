@@ -20,7 +20,7 @@ public class AdministradorDAO {
             String query = "insert into tbAdministrador (id_admin,usuario,passwrd) values(?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
 
-            ps.setString(1, adm.getId_admin());
+            ps.setInt(1, adm.getId_admin());
             ps.setString(2, adm.getUsuario());
             ps.setString(3, adm.getPasswrd());
 
@@ -40,7 +40,7 @@ public class AdministradorDAO {
             String query = "update tbAministrador set Usuario=?,Passwrd=? where Id_admin=?";
             PreparedStatement ps = con.prepareStatement(query);
 
-            ps.setString(1, adm.getId_admin());
+            ps.setInt(1, adm.getId_admin());
             ps.setString(2, adm.getUsuario());
             ps.setString(3, adm.getPasswrd());
 
@@ -78,7 +78,7 @@ public class AdministradorDAO {
             ResultSet rs = ps.executeQuery();
             Administrador cc;
             while (rs.next()) {
-                cc = new Administrador(rs.getString(1), rs.getString(2), rs.getString(3));
+                cc = new Administrador(rs.getInt(1), rs.getString(2), rs.getString(3));
                 adm.add(cc);
             }
             ps.close();

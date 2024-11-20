@@ -14,13 +14,15 @@ public class ProcedimientoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "insert into tbProcedimiento (id_pr,precio,nombre,desc) values(?,?,?,?)";
+            String query = "insert into tbProcedimiento (id_pr,precio,nombre,descr) values(?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
             
             ps.setInt(1, pr.getId_pr());
             ps.setInt(2, pr.getPrecio());
             ps.setString(3, pr.getNombre());
-            ps.setString(4, pr.getDesc());
+            ps.setString(4, pr.getDescr());
+            ps.setDate(5, pr.getFecha());
+            ps.setBoolean(6, pr.isPago());
             
             resultado = ps.executeUpdate() == 1;
             ps.close();
@@ -35,20 +37,20 @@ public class ProcedimientoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "update tbProcedimiento set Precio=?,Nombre=?,Desc=? where Id_pr=?";
+            String query = "update tbProcedimiento set Precio=?,Nombre=?,Descr=? ,fecha=? ,pago=? where Id_pr=?";
             PreparedStatement ps = con.prepareStatement(query);
-
+            
             ps.setInt(1, pr.getId_pr());
             ps.setInt(2, pr.getPrecio());
             ps.setString(3, pr.getNombre());
-            ps.setString(4, pr.getDesc());
+            ps.setString(4, pr.getDescr());
+            ps.setDate(5, pr.getFecha());
+            ps.setBoolean(6, pr.isPago());
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;
