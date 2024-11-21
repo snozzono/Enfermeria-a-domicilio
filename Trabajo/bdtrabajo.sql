@@ -52,7 +52,7 @@ INSERT INTO `tbadministrador` (`id_admin`, `usuario`, `passwrd`) VALUES
 
 CREATE TABLE `tbmedicamento` (
   `id_med` int(225) NOT NULL,
-  `cant` int(225) NOT NULL,
+  `cant` double(225,2) NOT NULL,
   `nombre_med` varchar(225) NOT NULL,
   `tomar` date DEFAULT NULL,
   `pac_run_pac` int(225) NOT NULL
