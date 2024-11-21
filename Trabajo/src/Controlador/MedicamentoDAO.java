@@ -19,7 +19,7 @@ public class MedicamentoDAO {
             PreparedStatement ps = con.prepareStatement(query);
             
             ps.setInt(1, med.getId_med());
-            ps.setInt(2, med.getCant());
+            ps.setDouble(2, med.getCant());
             ps.setString(3, med.getNombre_med());
             ps.setDate(4, med.getTomar());
             
@@ -40,7 +40,7 @@ public class MedicamentoDAO {
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, med.getId_med());
-            ps.setInt(2, med.getCant());
+            ps.setDouble(2, med.getCant());
             ps.setString(3, med.getNombre_med());
             ps.setDate(4, med.getTomar());
 

@@ -4,9 +4,10 @@ import Controlador.*;
 import Controlador.test.VentanaPrincipalIngresar;
 import Modelo.Administrador;
 import Modelo.Tecnico;
-import Vista.Administrador.VentanaAdministradorIngresarEliminar;
 import Vista.Tecnico.Paciente.VentanaPaciente;
 import javax.swing.JOptionPane;
+import Vista.Administrador.VentanaAdministradorIngresarEliminar;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
