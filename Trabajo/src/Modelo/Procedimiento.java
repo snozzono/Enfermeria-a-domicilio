@@ -25,6 +25,9 @@ public class Procedimiento {
         this.fecha = fecha;
     }
 
+    public Procedimiento() {
+    }
+
     public int getId_pr() {
         return id_pr;
     }
