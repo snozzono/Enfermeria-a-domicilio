@@ -1,7 +1,6 @@
 package Vista;
 
 import Controlador.*;
-import Controlador.test.VentanaPrincipalIngresar;
 import Modelo.Administrador;
 import Modelo.Tecnico;
 import Vista.Tecnico.Paciente.VentanaPaciente;
