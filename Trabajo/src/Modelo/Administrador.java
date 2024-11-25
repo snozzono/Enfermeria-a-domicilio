@@ -4,7 +4,6 @@ package Modelo;
 public class Administrador {
     String usuario, passwrd;
     int id_admin;
-    
     public Administrador(int id_admin, String usuario, String passwrd) {
         this.id_admin = id_admin;
         this.usuario = usuario;

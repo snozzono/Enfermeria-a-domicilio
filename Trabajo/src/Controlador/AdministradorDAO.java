@@ -94,6 +94,7 @@ public class AdministradorDAO {
             Connection con = Conexion.getConexion();
             String query = "SELECT usuario, passwrd FROM tbAdministrador where usuario = ? AND  passwrd = ?";
             PreparedStatement ps = con.prepareStatement(query);
+            //   ps.setString(1, rut);
             ps.setString(1, adm);
             ps.setString(2, pswd);
             
@@ -107,4 +108,6 @@ public class AdministradorDAO {
         }
         return administrador;
     }
+
+
 }

@@ -2,7 +2,6 @@
 package Vista.Tecnico.Paciente.ProcedimientosMedicamentos;
 import Controlador.ProcedimientoDAO;
 import Vista.Tecnico.Paciente.VentanaPaciente;
-import java.util.ArrayList;
 
 public class VentanaMain extends javax.swing.JFrame {
 
@@ -91,11 +90,6 @@ public class VentanaMain extends javax.swing.JFrame {
         });
 
         btnAgregarMedicamento.setText("Agregar medicamento");
-        btnAgregarMedicamento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarMedicamentoActionPerformed(evt);
-            }
-        });
 
         btnEliminarMedicamento.setText("Eliminar");
 
@@ -210,12 +204,8 @@ public class VentanaMain extends javax.swing.JFrame {
 
     private void jcProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcProcedimientoActionPerformed
         ProcedimientoDAO pdao = new ProcedimientoDAO();
-        //ArrayList<> lista = pdao;
+        ArrayList<> lista = pdao.
     }//GEN-LAST:event_jcProcedimientoActionPerformed
-
-    private void btnAgregarMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedicamentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAgregarMedicamentoActionPerformed
 
 
 
