@@ -71,7 +71,7 @@ public class TecnicoDAO {
         return tec;
     }
 
-    public Tecnico buscarTec(String adm, String pswd) {
+    public Tecnico ValidarTec(String adm, String pswd) {
         Tecnico tecnico = null;
         try {
             Connection con = Conexion.getConexion();
@@ -85,6 +85,29 @@ public class TecnicoDAO {
                         
             while (rs.next()) {
                 tecnico = new Tecnico(rs.getString("usuario"), rs.getString("passwrd"));
+            }
+            ps.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tecnico;
+    }
+    
+        public Tecnico BuscarTecnicoPorRut(int rut_tec) {
+        Tecnico tecnico = null;
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "select run_tec, nombre, passwrd from tbTecnico where run_tec=?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, rut_tec);
+            
+            ResultSet rs = ps.executeQuery();
+                        
+            if (rs.next()) {
+                tecnico.setRun_tec(rut_tec);
+                tecnico.setUsuario("nombre");
+                tecnico.setPasswrd("passwrd");
             }
             ps.close();
         } catch (SQLException | ClassNotFoundException ex) {
