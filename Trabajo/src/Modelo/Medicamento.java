@@ -16,6 +16,10 @@ public class Medicamento {
         this.tomar = tomar;
     }
 
+    public Medicamento(int aInt) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getId_med() {
         return id_med;
     }

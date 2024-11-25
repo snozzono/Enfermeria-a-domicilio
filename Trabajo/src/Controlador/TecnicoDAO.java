@@ -51,6 +51,22 @@ public class TecnicoDAO {
         }
         return resultado;
     }
+    
+    public boolean eliminarTecnico(String run) throws ClassNotFoundException {
+        boolean resultado = false;
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "delete from tbTecnico where run_tec='" + run + "'";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            resultado = ps.executeUpdate() == 1;
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
 
     public ArrayList<Tecnico> obtenerTodos() {
         ArrayList<Tecnico> tec = new ArrayList<>();

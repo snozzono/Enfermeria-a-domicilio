@@ -58,6 +58,43 @@ public class ProcedimientoDAO {
         return resultado;
     }
 
+    public boolean eliminarProc(String codigo) throws ClassNotFoundException {
+        boolean resultado = false;
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "delete from tbProcedimiento where id_pr='" + codigo + "'";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            resultado = ps.executeUpdate() == 1;
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
+    
+    public ArrayList<Procedimiento> obtenerTodos() {
+        ArrayList<Procedimiento> proc = new ArrayList<>();
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "Select * from tbProcedimiento";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            Procedimiento cc;
+            while (rs.next()) {
+                //cc = new Procedimiento(0, 0, query, query)
+                
+                //cc = new Procedimiento(rs.getInt(1), rs.getString(2), rs.getString(3));
+                //proc.add(cc);
+            }
+            ps.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return proc;
+    }
+    
     public ArrayList<Procedimiento> buscarProcedimiento() throws ClassNotFoundException {
         ArrayList<Procedimiento> listaProcedimento = new ArrayList<>();
         try {
@@ -82,10 +119,10 @@ public class ProcedimientoDAO {
             ps.close();
             rs.close();
         } catch (SQLException e ) {
-                System.out.println("Error SQL al buscar el hincha: " + e.getMessage());
+                System.out.println("Error SQL al buscar procedimiento: " + e.getMessage());
         }
         catch (ClassNotFoundException e) {
-            System.out.println("Error al buscar un hincha: " + e.getMessage());
+            System.out.println("Error al buscar procedimiento: " + e.getMessage());
         }
         return listaProcedimento;
     }

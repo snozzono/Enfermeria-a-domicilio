@@ -25,11 +25,11 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtTecnico = new javax.swing.JTable();
+        tableTecnico = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
-        btnCrearNuevoTecnico = new javax.swing.JButton();
+        btnCrearTecnico = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        jtBuscar = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,7 +44,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
             }
         });
 
-        jtTecnico.setModel(new javax.swing.table.DefaultTableModel(
+        tableTecnico.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -63,7 +63,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jtTecnico);
+        jScrollPane1.setViewportView(tableTecnico);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -72,10 +72,10 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
             }
         });
 
-        btnCrearNuevoTecnico.setText("Crear nuevo tecnico");
-        btnCrearNuevoTecnico.addActionListener(new java.awt.event.ActionListener() {
+        btnCrearTecnico.setText("Crear nuevo tecnico");
+        btnCrearTecnico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearNuevoTecnicoActionPerformed(evt);
+                btnCrearTecnicoActionPerformed(evt);
             }
         });
 
@@ -95,7 +95,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnCrearNuevoTecnico)
+                        .addComponent(btnCrearTecnico)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVolver))
                     .addGroup(layout.createSequentialGroup()
@@ -108,7 +108,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -117,7 +117,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar)
-                    .addComponent(jtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
@@ -128,7 +128,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVolver)
-                    .addComponent(btnCrearNuevoTecnico))
+                    .addComponent(btnCrearTecnico))
                 .addGap(21, 21, 21))
         );
 
@@ -136,15 +136,14 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void btnCrearNuevoTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoTecnicoActionPerformed
-        // TODO add your handling code here:
+    private void btnCrearTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearTecnicoActionPerformed
         VentanaAdministradorCrearTecnico VACT = new VentanaAdministradorCrearTecnico();
         VACT.setVisible(true);
         dispose();
-    }//GEN-LAST:event_btnCrearNuevoTecnicoActionPerformed
+    }//GEN-LAST:event_btnCrearTecnicoActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         VentanaPrincipal VP = new VentanaPrincipal();
@@ -159,13 +158,13 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCrearNuevoTecnico;
+    private javax.swing.JButton btnCrearTecnico;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jtBuscar;
-    private javax.swing.JTable jtTecnico;
+    private javax.swing.JTable tableTecnico;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }
