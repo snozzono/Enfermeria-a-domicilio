@@ -51,8 +51,8 @@ public class MedicamentoDAO {
         }
         return resultado;
     }
-    
-        public ArrayList<Medicamento> obtenerTodos() {
+
+    public ArrayList<Medicamento> obtenerTodos() {
         ArrayList<Medicamento> tec = new ArrayList<>();
         try {
             Connection con = Conexion.getConexion();
@@ -92,9 +92,7 @@ public class MedicamentoDAO {
         return resultado;
     }
 
-    
-
-        public Medicamento BuscarMedicamento(int run_tec) {
+    public Medicamento BuscarMedicamento(int run_tec) {
         Medicamento tecnico = new Medicamento();
         try {
             Connection con = Conexion.getConexion();
@@ -116,7 +114,7 @@ public class MedicamentoDAO {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tecnico;
-    
-}
+
+    }
 
 }

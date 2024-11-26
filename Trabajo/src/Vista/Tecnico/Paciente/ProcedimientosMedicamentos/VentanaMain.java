@@ -222,6 +222,12 @@ public class VentanaMain extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         VentanaPaciente VP = new VentanaPaciente();
+        
+        VP.setResizable(false);
+        VP.setLocationRelativeTo(null);
+        VP.setTitle("Pacientes");
+        VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VP.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
@@ -350,12 +356,24 @@ public class VentanaMain extends javax.swing.JFrame {
 
     private void btnAgregarProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProcedimientoActionPerformed
         VentanaCrearProcedimiento VCP = new VentanaCrearProcedimiento();
+        
+        VCP.setResizable(false);
+        VCP.setLocationRelativeTo(null);
+        VCP.setTitle("Crear procedimiento");
+        VCP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VCP.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnAgregarProcedimientoActionPerformed
 
     private void btnAgregarMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedicamentoActionPerformed
         VentanaCrearMedicamento VCM = new VentanaCrearMedicamento();
+        
+        VCM.setResizable(false);
+        VCM.setLocationRelativeTo(null);
+        VCM.setTitle("Crear medicamento");
+        VCM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VCM.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnAgregarMedicamentoActionPerformed

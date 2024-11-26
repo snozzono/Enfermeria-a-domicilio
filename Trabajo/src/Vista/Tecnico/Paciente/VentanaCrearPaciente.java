@@ -147,6 +147,12 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         VentanaPaciente VP = new VentanaPaciente();
+        
+        VP.setResizable(false);
+        VP.setLocationRelativeTo(null);
+        VP.setTitle("Pacientes");
+        VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VP.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed

@@ -32,8 +32,7 @@ public class PacienteDAO {
         return resultado;
     }
 
-    
-        public boolean eliminarPaciente(String run) throws ClassNotFoundException {
+    public boolean eliminarPaciente(String run) throws ClassNotFoundException {
         boolean resultado = false;
         Connection con = null;
         PreparedStatement ps = null;

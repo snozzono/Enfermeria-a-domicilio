@@ -130,27 +130,38 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         BBDDDAO bd = new BBDDDAO();
         BBDD bede = new BBDD();
-        
+
         bede.setOrigen(1);
-        
+
         if (admDAO.validarAdm(user, psswd) != null) {
             VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+
+            VAIE.setResizable(false);
+            VAIE.setLocationRelativeTo(null);
+            VAIE.setTitle("Técnicos");
+            VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
             admin = admDAO.validarAdm(user, psswd);
-            
+
             bede.setAdministrador(admin.getId_admin());
             bd.modificarAdministrador(bede);
-            
-            
+
             JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como admin");
             VAIE.setVisible(true);
             dispose();
         } else if (tecnoDAO.ValidarTec(user, psswd) != null) {
             VentanaPaciente VP = new VentanaPaciente();
+
+            VP.setResizable(false);
+            VP.setLocationRelativeTo(null);
+            VP.setTitle("Pacientes");
+            VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
             tecno = tecnoDAO.ValidarTec(user, psswd);
-            
+
             bede.setTecnico(tecno.getRun_tec());
             bd.modificarTecnico(bede);
-            
+
             JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
             VP.setVisible(true);
             dispose();
@@ -166,6 +177,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public static void main(String[] args) {
         // TODO code application logic here
         VentanaPrincipal v = new VentanaPrincipal();
+        
+        v.setResizable(false);
+        v.setLocationRelativeTo(null);
+        v.setTitle("Inicio");
+        v.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         v.setVisible(true);
     }
 

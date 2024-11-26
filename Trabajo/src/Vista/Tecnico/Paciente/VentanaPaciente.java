@@ -127,7 +127,8 @@ public class VentanaPaciente extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnCrearPaciente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVolver))
+                        .addComponent(btnVolver)
+                        .addGap(9, 9, 9))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
@@ -202,6 +203,12 @@ public class VentanaPaciente extends javax.swing.JFrame {
     private void btnCrearPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPacienteActionPerformed
         // TODO add your handling code here:
         VentanaCrearPaciente VCP = new VentanaCrearPaciente();
+
+        VCP.setResizable(false);
+        VCP.setLocationRelativeTo(null);
+        VCP.setTitle("Crear paciente");
+        VCP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         VCP.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCrearPacienteActionPerformed
@@ -210,10 +217,22 @@ public class VentanaPaciente extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (bd.getOrigen() == 1) {
             VentanaPrincipal VP = new VentanaPrincipal();
+
+            VP.setResizable(false);
+            VP.setLocationRelativeTo(null);
+            VP.setTitle("Inicio");
+            VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
             VP.setVisible(true);
             dispose();
         } else if (bd.getOrigen() == 0) {
             VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+
+            VAIE.setResizable(false);
+            VAIE.setLocationRelativeTo(null);
+            VAIE.setTitle("Técnicos");
+            VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
             VAIE.setVisible(true);
             dispose();
         }
@@ -272,6 +291,12 @@ public class VentanaPaciente extends javax.swing.JFrame {
         bdao.modificarPaciente(bd);
 
         VentanaMain VM = new VentanaMain();
+
+        VM.setResizable(false);
+        VM.setLocationRelativeTo(null);
+        VM.setTitle("Tratamientos");
+        VM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         VM.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnRevisarActionPerformed

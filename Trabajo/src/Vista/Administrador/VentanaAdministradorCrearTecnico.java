@@ -1,10 +1,8 @@
-
 package Vista.Administrador;
 
 import Controlador.TecnicoDAO;
 import Modelo.Tecnico;
 import javax.swing.JOptionPane;
-
 
 public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
 
@@ -118,21 +116,25 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         rut = Integer.parseInt(txtRut.getText());
         usuario = txtUsuario.getText();
         contraseña = txtContraseña.getText();
-        
+
         Tecnico tec = new Tecnico(rut, usuario, contraseña);
         TecnicoDAO tecDAO = new TecnicoDAO();
-        
-        
+
         if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && txtContraseña.getText().length() > 0) {
             if (tecDAO.ValidarTec(usuario, contraseña) == null) {
                 tecDAO.ingresarTecnico(tec);
-                JOptionPane.showMessageDialog(this,"Tecnico añadido correctamente");
+                JOptionPane.showMessageDialog(this, "Tecnico añadido correctamente");
                 VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+
+                VAIE.setResizable(false);
+                VAIE.setLocationRelativeTo(null);
+                VAIE.setTitle("Técnicos");
+                VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
                 VAIE.setVisible(true);
+
                 dispose();
             }
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos porfavor");
         }
     }//GEN-LAST:event_brnCrearActionPerformed
@@ -140,13 +142,18 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
         VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+
+        VAIE.setResizable(false);
+        VAIE.setLocationRelativeTo(null);
+        VAIE.setTitle("Técnicos");
+        VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        VAIE.setVisible(true);
+
         VAIE.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
 
-
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnCrear;
     private javax.swing.JButton btnSalir;

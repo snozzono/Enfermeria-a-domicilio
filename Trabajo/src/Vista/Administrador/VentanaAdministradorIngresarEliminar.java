@@ -178,6 +178,12 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     private void btnCrearNuevoTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoTecnicoActionPerformed
         // TODO add your handling code here:
         VentanaAdministradorCrearTecnico VACT = new VentanaAdministradorCrearTecnico();
+
+        VACT.setResizable(false);
+        VACT.setLocationRelativeTo(null);
+        VACT.setTitle("Crear técnico");
+        VACT.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
         VACT.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCrearNuevoTecnicoActionPerformed
@@ -185,6 +191,12 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
 
         VentanaPrincipal VP = new VentanaPrincipal();
+        
+        VP.setResizable(false);
+        VP.setLocationRelativeTo(null);
+        VP.setTitle("Pacientes");
+        VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VP.setVisible(true);
         dispose();
 
@@ -262,6 +274,11 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
         VentanaPaciente VP = new VentanaPaciente();
+
+        VP.setResizable(false);
+        VP.setLocationRelativeTo(null);
+        VP.setTitle("Pacientes");
+        VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         BBDDDAO bddao = new BBDDDAO();
         BBDD bd = new BBDD();

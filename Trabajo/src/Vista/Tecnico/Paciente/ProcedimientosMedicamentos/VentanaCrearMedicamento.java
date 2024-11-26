@@ -44,6 +44,11 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
         jLabel3.setText("Hasta cuando debe tomarlo");
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -53,6 +58,11 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jCheckBox1.setText("El paciente es cronico?");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +155,12 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         VentanaMain VM  = new VentanaMain();
+        
+        VM.setResizable(false);
+        VM.setLocationRelativeTo(null);
+        VM.setTitle("Tratamientos");
+        VM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VM.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
@@ -152,6 +168,14 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
      * @param args the command line arguments

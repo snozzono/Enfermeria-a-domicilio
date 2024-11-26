@@ -163,6 +163,12 @@ public class VentanaCrearProcedimiento extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         VentanaMain VM  = new VentanaMain();
+        
+        VM.setResizable(false);
+        VM.setLocationRelativeTo(null);
+        VM.setTitle("Tratamientos");
+        VM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        
         VM.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
