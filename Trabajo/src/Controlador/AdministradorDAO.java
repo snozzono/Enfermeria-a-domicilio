@@ -88,11 +88,11 @@ public class AdministradorDAO {
         return adm;
     }
 
-    public Administrador buscarAdm(String adm, String pswd) {
+    public Administrador validarAdm(String adm, String pswd) {
         Administrador administrador = null;
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT usuario, passwrd FROM tbAdministrador where usuario = ? AND  passwrd = ?";
+            String query = "SELECT id_admin, usuario, passwrd FROM tbAdministrador where usuario = ? AND  passwrd = ?";
             PreparedStatement ps = con.prepareStatement(query);
             //   ps.setString(1, rut);
             ps.setString(1, adm);
@@ -100,9 +100,8 @@ public class AdministradorDAO {
             
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                administrador = new Administrador(rs.getString("usuario"), rs.getString("passwrd"));
+                administrador = new Administrador(rs.getInt("id_admin"), rs.getString("usuario"), rs.getString("passwrd"));
             }
-            ps.close();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

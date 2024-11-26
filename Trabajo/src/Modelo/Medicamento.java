@@ -4,24 +4,39 @@ import java.sql.Date;
 
 public class Medicamento {
 
-    int id_med;
-    double cant;
+    int id_med, cant, ciclo;
     String nombre_med;
     Date tomar;
 
-    public Medicamento(int id_med, double cant, String nombre_med, Date tomar) {
+    public Medicamento(int id_med, int cant, int ciclo, String nombre_med, Date tomar) {
         this.id_med = id_med;
         this.cant = cant;
+        this.ciclo = ciclo;
         this.nombre_med = nombre_med;
         this.tomar = tomar;
+    }
+
+    public Medicamento() {
     }
 
     public int getId_med() {
         return id_med;
     }
 
-    public double getCant() {
+    public int getCant() {
         return cant;
+    }
+
+    public void setCant(int cant) {
+        this.cant = cant;
+    }
+
+    public int getCiclo() {
+        return ciclo;
+    }
+
+    public void setCiclo(int ciclo) {
+        this.ciclo = ciclo;
     }
 
     public String getNombre_med() {
@@ -34,10 +49,6 @@ public class Medicamento {
 
     public void setId_med(int id_med) {
         this.id_med = id_med;
-    }
-
-    public void setCant(double cant) {
-        this.cant = cant;
     }
 
     public void setNombre_med(String nombre_med) {

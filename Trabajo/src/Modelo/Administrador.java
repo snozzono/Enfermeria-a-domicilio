@@ -1,22 +1,25 @@
-
 package Modelo;
 
 public class Administrador {
+
     String usuario, passwrd;
     int id_admin;
+
     public Administrador(int id_admin, String usuario, String passwrd) {
         this.id_admin = id_admin;
         this.usuario = usuario;
         this.passwrd = passwrd;
     }
 
-        public Administrador(String usuario, String passwrd) {
+    public Administrador(String usuario, String passwrd) {
         this.usuario = usuario;
         this.passwrd = passwrd;
     }
 
-    
-    public int getId_admin(){
+    public Administrador() {
+    }
+
+    public int getId_admin() {
         return id_admin;
     }
 
@@ -39,6 +42,5 @@ public class Administrador {
     public void setPasswrd(String passwrd) {
         this.passwrd = passwrd;
     }
-    
-    
+
 }

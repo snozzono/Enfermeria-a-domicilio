@@ -1,9 +1,22 @@
-
 package Vista.Administrador;
 
+import Controlador.BBDDDAO;
+import Controlador.TecnicoDAO;
+import Modelo.BBDD;
+import Modelo.Tecnico;
+import Vista.Tecnico.Paciente.VentanaPaciente;
 import Vista.VentanaPrincipal;
+import java.awt.HeadlessException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
+
+    TecnicoDAO tecDAO = new TecnicoDAO();
+    Tecnico tecnico;
+    BBDDDAO bdao = new BBDDDAO();
+    BBDD bd = new BBDD();
 
     /**
      * Creates new form VentanaAdministradorIngresarEliminar
@@ -26,16 +39,26 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtTecnico = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jcbUsuarios = new javax.swing.JComboBox<>();
         btnCrearNuevoTecnico = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
-        jtBuscar = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnIngresar.setText("Ingresar");
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -65,10 +88,10 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtTecnico);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        jcbUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                jcbUsuariosActionPerformed(evt);
             }
         });
 
@@ -99,7 +122,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVolver))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jcbUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnIngresar)
                         .addGap(27, 27, 27)
@@ -108,7 +131,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -117,12 +140,12 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscar)
-                    .addComponent(jtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcbUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnIngresar)
                     .addComponent(btnEliminar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
@@ -135,9 +158,22 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void jcbUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbUsuariosActionPerformed
+        jcbUsuarios.removeAllItems();
+
+        ArrayList<Tecnico> listaTecnicos = tecDAO.obtenerTodos();
+
+        if (listaTecnicos != null && !listaTecnicos.isEmpty()) {
+            for (Tecnico temp : listaTecnicos) {
+                jcbUsuarios.addItem(String.valueOf(temp.getRun_tec()));
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay técnicos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
+        }
+        jcbUsuarios.revalidate();
+        jcbUsuarios.repaint();
+
+    }//GEN-LAST:event_jcbUsuariosActionPerformed
 
     private void btnCrearNuevoTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoTecnicoActionPerformed
         // TODO add your handling code here:
@@ -147,14 +183,100 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCrearNuevoTecnicoActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+
         VentanaPrincipal VP = new VentanaPrincipal();
         VP.setVisible(true);
         dispose();
+
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        try {
+
+            DefaultTableModel modelo = (DefaultTableModel) this.jtTecnico.getModel();
+            modelo.setRowCount(0); // Limpiar tabla
+            String textoBuscar = txtBuscar.getText().trim();
+
+            if (textoBuscar.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "El campo de búsqueda está vacío. Mostrando todos los técnicos.", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+                ArrayList<Tecnico> lista = tecDAO.obtenerTodos();
+                for (Tecnico tmp : lista) {
+                    modelo.addRow(new Object[]{tmp.getRun_tec(), tmp.getUsuario(), tmp.getPasswrd()});
+                }
+                //barra con texto
+            } else {
+                int runTec = Integer.parseInt(textoBuscar);
+                Tecnico tecnico = tecDAO.BuscarTecnicoPorRut(runTec);
+                if (tecnico != null) {
+                    modelo.addRow(new Object[]{tecnico.getRun_tec(), tecnico.getUsuario(), tecnico.getPasswrd()});
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró un técnico con el RUN ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        } catch (NumberFormatException e) {
+            // Mostrar mensaje si el texto ingresado no es un número
+            JOptionPane.showMessageDialog(this, "Ingrese un número válido en el campo de búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (HeadlessException e) {
+            // Capturar errores generales para evitar bloqueos
+            JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        try {
+            String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem();
+            if (usuarioSeleccionado != null) {
+                boolean eliminado = tecDAO.eliminarTecnico(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
+                if (eliminado) {
+                    // actualizar tabla
+                    JOptionPane.showMessageDialog(this, "El técnico fue eliminado exitosamente.");
+                    DefaultTableModel modelo = (DefaultTableModel) jtTecnico.getModel();
+                    modelo.setRowCount(0); // Limpiar tabla
+                    ArrayList<Tecnico> lista = tecDAO.obtenerTodos();
+                    for (Tecnico tmp : lista) {
+                        modelo.addRow(new Object[]{tmp.getRun_tec(), tmp.getUsuario(), tmp.getPasswrd()});
+                    }
+                    // actualizar combobox
+                    jcbUsuarios.removeAllItems(); // Limpiar los items previos
+
+                    // Obtener la lista de técnicos
+                    ArrayList<Tecnico> listaTecnicos = tecDAO.obtenerTodos();
+
+                    // Añadir los usuarios al JComboBox
+                    for (Tecnico tecnico : listaTecnicos) {
+                        jcbUsuarios.addItem(String.valueOf(tecnico.getRun_tec()));  // Asumimos que getUsuario() devuelve el nombre de usuario
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el técnico.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un técnico para eliminar.");
+            }
+        } catch (HeadlessException | ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(this, "e.");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
+        VentanaPaciente VP = new VentanaPaciente();
+
+        BBDDDAO bddao = new BBDDDAO();
+        BBDD bd = new BBDD();
+
+        bd.setOrigen(1);
+
+        bd.setTecnico(Integer.parseInt(usuarioSeleccionado));
+        bddao.modificarTecnico(bd);
+
+        JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
+        VP.setVisible(true);
+        dispose();
+
+
+    }//GEN-LAST:event_btnIngresarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -163,9 +285,9 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jtBuscar;
+    private javax.swing.JComboBox<String> jcbUsuarios;
     private javax.swing.JTable jtTecnico;
+    private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

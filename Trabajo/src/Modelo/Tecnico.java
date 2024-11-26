@@ -1,7 +1,7 @@
-
 package Modelo;
 
 public class Tecnico {
+
     int run_tec;
     String usuario, passwrd;
 
@@ -13,7 +13,11 @@ public class Tecnico {
 
     public Tecnico(String usuario, String passwrd) {
         this.usuario = usuario;
-        this.passwrd = passwrd;    }
+        this.passwrd = passwrd;
+    }
+
+    public Tecnico() {
+    }
 
     public int getRun_tec() {
         return run_tec;
@@ -38,6 +42,5 @@ public class Tecnico {
     public void setPasswrd(String passwrd) {
         this.passwrd = passwrd;
     }
-    
-    
+
 }

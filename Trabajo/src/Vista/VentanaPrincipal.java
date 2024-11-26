@@ -2,10 +2,12 @@ package Vista;
 
 import Controlador.*;
 import Modelo.Administrador;
+import Modelo.BBDD;
 import Modelo.Tecnico;
 import Vista.Tecnico.Paciente.VentanaPaciente;
 import javax.swing.JOptionPane;
 import Vista.Administrador.VentanaAdministradorIngresarEliminar;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
@@ -121,23 +123,35 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         psswd = txtContraseña.getText();
 
         Administrador admin;
-        admin = new Administrador(user, psswd);
-
         AdministradorDAO admDAO = new AdministradorDAO();
 
         Tecnico tecno;
-        tecno = new Tecnico(user, psswd);
-
         TecnicoDAO tecnoDAO = new TecnicoDAO();
 
-        if (admDAO.buscarAdm(user, psswd) != null) {
-            JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como admin");
+        BBDDDAO bd = new BBDDDAO();
+        BBDD bede = new BBDD();
+        
+        bede.setOrigen(1);
+        
+        if (admDAO.validarAdm(user, psswd) != null) {
             VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+            admin = admDAO.validarAdm(user, psswd);
+            
+            bede.setAdministrador(admin.getId_admin());
+            bd.modificarAdministrador(bede);
+            
+            
+            JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como admin");
             VAIE.setVisible(true);
             dispose();
-        } else if (tecnoDAO.buscarTec(user, psswd) != null) {
-            JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
+        } else if (tecnoDAO.ValidarTec(user, psswd) != null) {
             VentanaPaciente VP = new VentanaPaciente();
+            tecno = tecnoDAO.ValidarTec(user, psswd);
+            
+            bede.setTecnico(tecno.getRun_tec());
+            bd.modificarTecnico(bede);
+            
+            JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
             VP.setVisible(true);
             dispose();
         } else {
