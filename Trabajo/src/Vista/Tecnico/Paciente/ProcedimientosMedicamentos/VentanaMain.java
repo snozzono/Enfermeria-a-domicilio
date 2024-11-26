@@ -309,14 +309,14 @@ public class VentanaMain extends javax.swing.JFrame {
                 ArrayList<Medicamento> lista = new ArrayList<>();
                 lista = medDAO.obtenerTodos();
                 for (Medicamento tmp : lista) {
-                    modelo.addRow(new Object[]{tmp.getCant(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
+                    modelo.addRow(new Object[]{tmp.isCronico(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
                 }
                 //barra con texto
             } else {
                 int runTec = Integer.parseInt(textoBuscar);
                 med = medDAO.BuscarMedicamento(runTec);
                 if (med != null) {
-                    modelo.addRow(new Object[]{med.getCant(), med.getCiclo(), med.getId_med(), med.getNombre_med(), med.getTomar()});
+                    modelo.addRow(new Object[]{med.isCronico(), med.getCiclo(), med.getId_med(), med.getNombre_med(), med.getTomar()});
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un Medicamento con el ID ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -389,7 +389,7 @@ public class VentanaMain extends javax.swing.JFrame {
                     modelo.setRowCount(0); // Limpiar tabla
                     ArrayList<Medicamento> lista = medDAO.obtenerTodos();
                     for (Medicamento tmp : lista) {
-                        modelo.addRow(new Object[]{tmp.getCant(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
+                        modelo.addRow(new Object[]{tmp.isCronico(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
                     }
                     // actualizar combobox
                     jcbMedicamento.removeAllItems(); // Limpiar los items previos

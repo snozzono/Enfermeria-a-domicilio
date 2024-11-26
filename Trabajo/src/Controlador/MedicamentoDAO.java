@@ -16,11 +16,11 @@ public class MedicamentoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "insert into tbMedicamento (id_med,cant,ciclo,nombre_med,tomar) values(?,?,?,?,?)";
+            String query = "insert into tbMedicamento (id_med,cronico,ciclo,nombre_med,tomar) values(?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, med.getId_med());
-            ps.setDouble(2, med.getCant());
+            ps.setBoolean(2, med.isCronico());
             ps.setString(3, med.getNombre_med());
             ps.setDate(4, med.getTomar());
 
@@ -56,12 +56,12 @@ public class MedicamentoDAO {
         ArrayList<Medicamento> tec = new ArrayList<>();
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT id_med, cant, ciclo, nombre_med, tomar FROM tbMedicamento where pac_run_pac = (SELECT paciente FROM  tbdecisiones)";
+            String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where pac_run_pac = (SELECT paciente FROM  tbdecisiones)";
             PreparedStatement ps = con.prepareStatement(query);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Medicamento cc = new Medicamento(rs.getInt("id_med"), rs.getInt("cant"), rs.getInt("ciclo"), rs.getString("nombre_med"), rs.getDate("tomar"));
+                Medicamento cc = new Medicamento(rs.getInt("id_med"), rs.getBoolean("cronico"), rs.getInt("ciclo"), rs.getString("nombre_med"), rs.getDate("tomar"));
                 tec.add(cc);
             }
 
@@ -79,7 +79,7 @@ public class MedicamentoDAO {
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, med.getId_med());
-            ps.setDouble(2, med.getCant());
+            ps.setBoolean(2, med.isCronico());
             ps.setString(3, med.getNombre_med());
             ps.setDate(4, med.getTomar());
 
@@ -106,7 +106,7 @@ public class MedicamentoDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                tecnico.setCant(rs.getInt("cant"));
+                tecnico.setCronico(rs.getBoolean("cant"));
                 tecnico.setCiclo(rs.getInt("ciclo"));
                 tecnico.setId_med(rs.getInt("id_med"));
                 tecnico.setNombre_med(rs.getString("nombre_med"));

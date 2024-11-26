@@ -4,13 +4,14 @@ import java.sql.Date;
 
 public class Medicamento {
 
-    int id_med, cant, ciclo;
+    int id_med, ciclo;
+    boolean cronico;
     String nombre_med;
     Date tomar;
 
-    public Medicamento(int id_med, int cant, int ciclo, String nombre_med, Date tomar) {
+    public Medicamento(int id_med, boolean cronico, int ciclo, String nombre_med, Date tomar) {
         this.id_med = id_med;
-        this.cant = cant;
+        this.cronico = cronico;
         this.ciclo = ciclo;
         this.nombre_med = nombre_med;
         this.tomar = tomar;
@@ -23,12 +24,12 @@ public class Medicamento {
         return id_med;
     }
 
-    public int getCant() {
-        return cant;
+    public boolean isCronico() {
+        return cronico;
     }
 
-    public void setCant(int cant) {
-        this.cant = cant;
+    public void setCronico(boolean cronico) {
+        this.cronico = cronico;
     }
 
     public int getCiclo() {
