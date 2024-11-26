@@ -15,6 +15,10 @@ public class Paciente {
         this.run_pac = run_pac;
     }
 
+    public Paciente() {
+
+    }
+
     public int getRun_pac() {
         return run_pac;
     }

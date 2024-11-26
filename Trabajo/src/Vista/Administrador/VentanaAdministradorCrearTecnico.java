@@ -124,7 +124,7 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         
         
         if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && txtContraseña.getText().length() > 0) {
-            if (tecDAO.buscarTec(usuario, contraseña) == null) {
+            if (tecDAO.ValidarTec(usuario, contraseña) == null) {
                 tecDAO.ingresarTecnico(tec);
                 JOptionPane.showMessageDialog(this,"Tecnico añadido correctamente");
                 VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();

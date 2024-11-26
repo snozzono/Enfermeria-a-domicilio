@@ -16,7 +16,7 @@ public class TecnicoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "insert into tbTecnico (run_tec,usuario,passwrd) values(?,?,?)";
+            String query = "insert into tbTecnico (run_tec,usuario,passwrd,admin_id_admin) values(?,?,?,(SELECT administrador FROM tbdecisiones WHERE llamado = 1))";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, tec.getRun_tec());
@@ -27,6 +27,43 @@ public class TecnicoDAO {
             ps.close();
 
         } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
+
+    public boolean eliminarTecnico(String run) throws ClassNotFoundException {
+        boolean resultado = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = Conexion.getConexion();
+
+            // Primero eliminamos las referencias en tbProcedimiento
+            String queryEliminarMedicamento = "DELETE FROM tbmedicamento WHERE pac_run_pac IN (SELECT run_pac FROM tbpaciente WHERE tec_run_tec = ?)";
+            ps = con.prepareStatement(queryEliminarMedicamento);
+            ps.setString(1, run);
+            ps.executeUpdate();  // Ejecutamos la eliminación de los procedimientos asociado
+
+            // Primero eliminamos las referencias en tbProcedimiento
+            String queryEliminarProcedimiento = "DELETE FROM tbprocedimiento WHERE pac_run_pac IN (SELECT run_pac FROM tbpaciente WHERE tec_run_tec = ?)";
+            ps = con.prepareStatement(queryEliminarProcedimiento);
+            ps.setString(1, run);
+            ps.executeUpdate();  // Ejecutamos la eliminación de los procedimientos asociados
+
+            // Luego eliminamos los registros en tbPaciente
+            String queryEliminarPaciente = "DELETE FROM tbpaciente WHERE tec_run_tec = ?";
+            ps = con.prepareStatement(queryEliminarPaciente);
+            ps.setString(1, run);
+            ps.executeUpdate();  // Ejecutamos la eliminación de los pacientes asociados
+
+            // Finalmente, eliminamos al técnico
+            String queryEliminarTecnico = "DELETE FROM tbTecnico WHERE run_tec = ?";
+            ps = con.prepareStatement(queryEliminarTecnico);
+            ps.setString(1, run);
+            resultado = ps.executeUpdate() == 1;  // Debería eliminar exactamente un registro
+
+        } catch (SQLException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return resultado;
@@ -72,37 +109,59 @@ public class TecnicoDAO {
         ArrayList<Tecnico> tec = new ArrayList<>();
         try {
             Connection con = Conexion.getConexion();
-            String query = "Select * from tbTecnico";
+            String query = "SELECT run_tec, usuario,passwrd FROM tbTecnico where admin_id_admin = (SELECT administrador FROM  tbdecisiones)";
             PreparedStatement ps = con.prepareStatement(query);
+
             ResultSet rs = ps.executeQuery();
             Tecnico cc;
             while (rs.next()) {
-                cc = new Tecnico(rs.getInt(1), rs.getString(2), rs.getString(3));
+                cc = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd"));
                 tec.add(cc);
             }
-            ps.close();
+
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tec;
     }
 
-    public Tecnico buscarTec(String adm, String pswd) {
+    public Tecnico ValidarTec(String adm, String pswd) {
         Tecnico tecnico = null;
         try {
             Connection con = Conexion.getConexion();
-            String query = "select usuario, passwrd from tbTecnico where usuario=? AND passwrd=?";
+            String query = "select run_tec, usuario, passwrd from tbTecnico where usuario=? AND passwrd=?";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setString(1, adm);
             ps.setString(2, pswd);
-            
+
             ResultSet rs = ps.executeQuery();
-                        
+
             while (rs.next()) {
-                tecnico = new Tecnico(rs.getString("usuario"), rs.getString("passwrd"));
+                tecnico = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd"));
             }
-            ps.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tecnico;
+    }
+
+    public Tecnico BuscarTecnicoPorRut(int run_tec) {
+        Tecnico tecnico = new Tecnico();
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "select run_tec, usuario, passwrd from tbTecnico where run_tec=?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, run_tec);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                tecnico.setRun_tec(rs.getInt("run_tec"));
+                tecnico.setUsuario(rs.getString("usuario"));
+                tecnico.setPasswrd(rs.getString("passwrd"));
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }

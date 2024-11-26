@@ -35,6 +35,26 @@ public class ProcedimientoDAO {
         return resultado;
     }
 
+    public boolean eliminarProcedimiento(String run) throws ClassNotFoundException {
+        boolean resultado = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        try {
+            con = Conexion.getConexion();
+
+            // Primero eliminamos las referencias en tbProcedimiento
+            String queryEliminarMedicamento = "delete from tbprocedimiento where id_pr=?";
+            ps = con.prepareStatement(queryEliminarMedicamento);
+            ps.setString(1, run);
+            ps.executeUpdate();  // Ejecutamos la eliminación de los procedimientos asociado
+            resultado = ps.executeUpdate() == 1;  // Debería eliminar exactamente un registro
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
+    }
+
     public boolean modificarProc(Procedimiento pr) {
         boolean resultado = false;
         try {
@@ -73,58 +93,53 @@ public class ProcedimientoDAO {
         }
         return resultado;
     }
-    
-    public ArrayList<Procedimiento> obtenerTodos() {
-        ArrayList<Procedimiento> proc = new ArrayList<>();
+
+    public Procedimiento BuscarProcedimiento(int id) {
+        Procedimiento tecnico = new Procedimiento();
         try {
             Connection con = Conexion.getConexion();
-            String query = "Select * from tbProcedimiento";
+            String query = "SELECT id_pr,precio, nombre,descr,pago,fecha FROM tbProcedimiento where pac_run_pac = (SELECT paciente FROM  tbdecisiones)";
             PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setInt(1, id);
+
             ResultSet rs = ps.executeQuery();
-            Procedimiento cc;
-            while (rs.next()) {
-                //cc = new Procedimiento(0, 0, query, query)
-                
-                //cc = new Procedimiento(rs.getInt(1), rs.getString(2), rs.getString(3));
-                //proc.add(cc);
+
+            if (rs.next()) {
+                tecnico.setId_pr(rs.getInt("id_pr"));
+                tecnico.setPrecio(rs.getInt("precio"));
+                tecnico.setNombre(rs.getString("nombre"));
+                tecnico.setDescr(rs.getString("Descr"));
+                tecnico.setPago(rs.getBoolean("pago"));
+                tecnico.setFecha(rs.getDate("fecha"));
             }
-            ps.close();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return proc;
+        return tecnico;
     }
-    
-    public ArrayList<Procedimiento> buscarProcedimiento() throws ClassNotFoundException {
-        ArrayList<Procedimiento> listaProcedimento = new ArrayList<>();
+
+    public ArrayList<Procedimiento> obtenerTodos() {
+        ArrayList<Procedimiento> tec = new ArrayList<>();
         try {
-            Connection con = Controlador.Conexion.getConexion();
-            String query = "SELECT id_pr, precio"
-                    + " nombre, descr"
-                    + " pago"
-                    + " fecha FROM tbProcedimiento";
+            Connection con = Conexion.getConexion();
+            if (con == null) {
+                System.out.println("La conexión no se pudo establecer.");
+                return tec;
+            }
+            String query = "SELECT id_pr,precio, nombre,descr,pago,fecha FROM tbProcedimiento where pac_run_pac = (SELECT paciente FROM  tbdecisiones)";
             PreparedStatement ps = con.prepareStatement(query);
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Procedimiento procedimiento = new Procedimiento();
-                procedimiento.setId_pr(rs.getInt("id_pr"));
-                procedimiento.setPrecio(rs.getInt("precio"));
-                procedimiento.setNombre(rs.getString("nombre"));
-                procedimiento.setDescr(rs.getString("descr"));
-                procedimiento.setPago(rs.getBoolean("pago"));
-                procedimiento.setFecha(rs.getDate("fecha"));
-                listaProcedimento.add(procedimiento);
+                Procedimiento cc = new Procedimiento(rs.getInt("id_pr"), rs.getInt("precio"), rs.getString("nombre"), rs.getString("descr"), rs.getBoolean("pago"), rs.getDate("fecha"));
+                tec.add(cc);
             }
-            con.close();
-            ps.close();
-            rs.close();
-        } catch (SQLException e ) {
-                System.out.println("Error SQL al buscar procedimiento: " + e.getMessage());
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("Error al buscar procedimiento: " + e.getMessage());
-        }
-        return listaProcedimento;
+        return tec;
     }
 
 }
