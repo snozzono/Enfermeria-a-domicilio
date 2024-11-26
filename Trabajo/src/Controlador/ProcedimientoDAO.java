@@ -78,35 +78,20 @@ public class ProcedimientoDAO {
         return resultado;
     }
 
-    public ArrayList<Procedimiento> buscarProcedimientos() throws ClassNotFoundException {
-        ArrayList<Procedimiento> listaProcedimento = new ArrayList<>();
+    public boolean eliminarProc(String codigo) throws ClassNotFoundException {
+        boolean resultado = false;
         try {
-            Connection con = Controlador.Conexion.getConexion();
-            String query = "SELECT id_pr, precio"
-                    + " nombre, descr"
-                    + " pago"
-                    + " fecha FROM tbProcedimiento";
+            Connection con = Conexion.getConexion();
+            String query = "delete from tbProcedimiento where id_pr='" + codigo + "'";
             PreparedStatement ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Procedimiento procedimiento = new Procedimiento();
-                procedimiento.setId_pr(rs.getInt("id_pr"));
-                procedimiento.setPrecio(rs.getInt("precio"));
-                procedimiento.setNombre(rs.getString("nombre"));
-                procedimiento.setDescr(rs.getString("descr"));
-                procedimiento.setPago(rs.getBoolean("pago"));
-                procedimiento.setFecha(rs.getDate("fecha"));
-                listaProcedimento.add(procedimiento);
-            }
-            con.close();
+
+            resultado = ps.executeUpdate() == 1;
             ps.close();
-            rs.close();
-        } catch (SQLException e) {
-            System.out.println("Error SQL al buscar el hincha: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error al buscar un hincha: " + e.getMessage());
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return listaProcedimento;
+        return resultado;
     }
 
     public Procedimiento BuscarProcedimiento(int id) {

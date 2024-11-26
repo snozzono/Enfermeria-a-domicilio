@@ -31,6 +31,7 @@ public class PacienteDAO {
         }
         return resultado;
     }
+
     
         public boolean eliminarPaciente(String run) throws ClassNotFoundException {
         boolean resultado = false;
@@ -123,5 +124,4 @@ public class PacienteDAO {
         }
         return tec;
     }
-
 }
