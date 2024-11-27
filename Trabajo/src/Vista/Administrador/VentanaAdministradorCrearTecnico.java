@@ -2,6 +2,7 @@ package Vista.Administrador;
 
 import Controlador.TecnicoDAO;
 import Modelo.Tecnico;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 
 public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
@@ -29,8 +30,8 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         brnCrear = new javax.swing.JButton();
         txtRut = new javax.swing.JTextField();
         txtUsuario = new javax.swing.JTextField();
-        txtContraseña = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        pswdCrearTec = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +57,12 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
 
         jLabel4.setText("Creacion de usuarios");
 
+        pswdCrearTec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pswdCrearTecActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -74,9 +81,9 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalir, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtContraseña)
                         .addComponent(txtUsuario, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtRut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtRut, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pswdCrearTec, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28))
             .addGroup(layout.createSequentialGroup()
                 .addGap(109, 109, 109)
@@ -96,11 +103,11 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(71, 71, 71)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(59, 59, 59)
+                .addGap(74, 74, 74)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(pswdCrearTec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
                     .addComponent(brnCrear))
@@ -112,16 +119,18 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
 
     private void brnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brnCrearActionPerformed
         int rut;
-        String usuario, contraseña;
+        String usuario;
+        char[] contrasenia;
+        
         rut = Integer.parseInt(txtRut.getText());
         usuario = txtUsuario.getText();
-        contraseña = txtContraseña.getText();
+        contrasenia = pswdCrearTec.getPassword();
 
-        Tecnico tec = new Tecnico(rut, usuario, contraseña);
+        Tecnico tec = new Tecnico(rut, usuario, contrasenia);
         TecnicoDAO tecDAO = new TecnicoDAO();
 
-        if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && txtContraseña.getText().length() > 0) {
-            if (tecDAO.ValidarTec(usuario, contraseña) == null) {
+        if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && Arrays.toString(pswdCrearTec.getPassword()).length() > 0) {
+            if (tecDAO.validar(usuario, contrasenia) == null) {
                 tecDAO.ingresarTecnico(tec);
                 JOptionPane.showMessageDialog(this, "Tecnico añadido correctamente");
                 VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
@@ -153,6 +162,9 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void pswdCrearTecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswdCrearTecActionPerformed
+    }//GEN-LAST:event_pswdCrearTecActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton brnCrear;
@@ -161,7 +173,7 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txtContraseña;
+    private javax.swing.JPasswordField pswdCrearTec;
     private javax.swing.JTextField txtRut;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables

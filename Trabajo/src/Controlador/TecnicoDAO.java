@@ -7,10 +7,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TecnicoDAO {
+public class TecnicoDAO extends VistasControl{
 
     public boolean ingresarTecnico(Tecnico tec) {
         boolean resultado = false;
@@ -21,7 +22,7 @@ public class TecnicoDAO {
 
             ps.setInt(1, tec.getRun_tec());
             ps.setString(2, tec.getUsuario());
-            ps.setString(3, tec.getPasswrd());
+            ps.setString(3, Arrays.toString(tec.getPasswrd()));
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
@@ -78,7 +79,7 @@ public class TecnicoDAO {
 
             ps.setInt(1, tec.getRun_tec());
             ps.setString(2, tec.getUsuario());
-            ps.setString(3, tec.getPasswrd());
+            ps.setString(3, Arrays.toString(tec.getPasswrd()));
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
@@ -99,7 +100,7 @@ public class TecnicoDAO {
             ResultSet rs = ps.executeQuery();
             Tecnico cc;
             while (rs.next()) {
-                cc = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd"));
+                cc = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd").toCharArray());
                 tec.add(cc);
             }
 
@@ -109,20 +110,24 @@ public class TecnicoDAO {
         return tec;
     }
 
-    public Tecnico ValidarTec(String adm, String pswd) {
+    @Override
+    public Tecnico validar(String adm, char[] pswd) {
         Tecnico tecnico = null;
         try {
+            String str;
+            str = new String(pswd);
+            
             Connection con = Conexion.getConexion();
             String query = "select run_tec, usuario, passwrd from tbTecnico where usuario=? AND passwrd=?";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setString(1, adm);
-            ps.setString(2, pswd);
+            ps.setString(2, str);
 
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                tecnico = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd"));
+                tecnico = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd").toCharArray());
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -144,7 +149,7 @@ public class TecnicoDAO {
             if (rs.next()) {
                 tecnico.setRun_tec(rs.getInt("run_tec"));
                 tecnico.setUsuario(rs.getString("usuario"));
-                tecnico.setPasswrd(rs.getString("passwrd"));
+                tecnico.setPasswrd(rs.getString("passwrd").toCharArray());
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);

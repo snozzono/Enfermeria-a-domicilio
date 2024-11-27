@@ -6,12 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import Controlador.Conexion;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class AdministradorDAO {
+public class AdministradorDAO extends VistasControl{
 
     public boolean ingresarAdmin(Administrador adm) {
         boolean resultado = false;
@@ -22,7 +22,7 @@ public class AdministradorDAO {
 
             ps.setInt(1, adm.getId_admin());
             ps.setString(2, adm.getUsuario());
-            ps.setString(3, adm.getPasswrd());
+            ps.setObject(3, Arrays.toString(adm.getPasswrd()));
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
@@ -42,7 +42,7 @@ public class AdministradorDAO {
 
             ps.setInt(1, adm.getId_admin());
             ps.setString(2, adm.getUsuario());
-            ps.setString(3, adm.getPasswrd());
+            ps.setObject(3, Arrays.toString(adm.getPasswrd()));
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
@@ -78,7 +78,7 @@ public class AdministradorDAO {
             ResultSet rs = ps.executeQuery();
             Administrador cc;
             while (rs.next()) {
-                cc = new Administrador(rs.getInt(1), rs.getString(2), rs.getString(3));
+                cc = new Administrador(rs.getInt(1), rs.getString(2), rs.getString(3).toCharArray());
                 adm.add(cc);
             }
             ps.close();
@@ -88,18 +88,24 @@ public class AdministradorDAO {
         return adm;
     }
 
-    public Administrador validarAdm(String adm, String pswd) {
+    @Override
+    public Administrador validar(String user, char[] pswd) {
         Administrador administrador = null;
         try {
+            String str;
+            str = new String(pswd);
+                    
             Connection con = Conexion.getConexion();
-            String query = "SELECT id_admin, usuario, passwrd FROM tbAdministrador where usuario = ? AND  passwrd = ?";
+            String query;
+            query = "SELECT id_admin, usuario, passwrd FROM tbAdministrador WHERE usuario = ? AND passwrd = ?";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, adm);
-            ps.setString(2, pswd);
-            
+            ps.setString(1, user);
+            ps.setString(2, str);
+                        
             ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
-                administrador = new Administrador(rs.getInt("id_admin"), rs.getString("usuario"), rs.getString("passwrd"));
+                administrador = new Administrador(rs.getInt("id_admin"), rs.getString("usuario"), rs.getString("passwrd").toCharArray());
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);

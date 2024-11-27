@@ -2,16 +2,17 @@ package Modelo;
 
 public class Administrador {
 
-    String usuario, passwrd;
+    String usuario;
+    char[] passwrd;
     int id_admin;
 
-    public Administrador(int id_admin, String usuario, String passwrd) {
+    public Administrador(int id_admin, String usuario, char[] passwrd) {
         this.id_admin = id_admin;
         this.usuario = usuario;
         this.passwrd = passwrd;
     }
 
-    public Administrador(String usuario, String passwrd) {
+    public Administrador(String usuario, char[] passwrd) {
         this.usuario = usuario;
         this.passwrd = passwrd;
     }
@@ -35,11 +36,11 @@ public class Administrador {
         this.usuario = usuario;
     }
 
-    public String getPasswrd() {
+    public char[] getPasswrd() {
         return passwrd;
     }
 
-    public void setPasswrd(String passwrd) {
+    public void setPasswrd(char[] passwrd) {
         this.passwrd = passwrd;
     }
 

@@ -3,15 +3,16 @@ package Modelo;
 public class Tecnico {
 
     int run_tec;
-    String usuario, passwrd;
+    String usuario;
+    char [] passwrd;
 
-    public Tecnico(int run_tec, String usuario, String passwrd) {
+    public Tecnico(int run_tec, String usuario, char [] passwrd) {
         this.run_tec = run_tec;
         this.usuario = usuario;
         this.passwrd = passwrd;
     }
 
-    public Tecnico(String usuario, String passwrd) {
+    public Tecnico(String usuario, char [] passwrd) {
         this.usuario = usuario;
         this.passwrd = passwrd;
     }
@@ -35,11 +36,11 @@ public class Tecnico {
         this.usuario = usuario;
     }
 
-    public String getPasswrd() {
+    public char[] getPasswrd() {
         return passwrd;
     }
 
-    public void setPasswrd(String passwrd) {
+    public void setPasswrd(char[] passwrd) {
         this.passwrd = passwrd;
     }
 
