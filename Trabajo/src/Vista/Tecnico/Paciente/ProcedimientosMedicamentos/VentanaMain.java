@@ -23,6 +23,8 @@ public class VentanaMain extends javax.swing.JFrame {
      */
     public VentanaMain() {
         initComponents();
+        llenarjcbMedicamento();
+        llnearjcbProcedimiento();
     }
 
     /**
@@ -54,13 +56,13 @@ public class VentanaMain extends javax.swing.JFrame {
 
         jtMedicamento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre ", "Cuanto, cada cuanto", "Hasta cuando"
+                "ID", "Nombre ", "Cuanto, cada cuanto", "Hasta cuando", "nulle"
             }
         ));
         jScrollPane1.setViewportView(jtMedicamento);
@@ -172,7 +174,7 @@ public class VentanaMain extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(btnEliminarProcedimiento))
                                     .addComponent(btnAgregarMedicamento))
-                                .addGap(0, 10, Short.MAX_VALUE)))
+                                .addGap(0, 118, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnBuscarMed)
@@ -222,12 +224,12 @@ public class VentanaMain extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         VentanaPaciente VP = new VentanaPaciente();
-        
+
         VP.setResizable(false);
         VP.setLocationRelativeTo(null);
         VP.setTitle("Pacientes");
         VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+
         VP.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
@@ -337,9 +339,13 @@ public class VentanaMain extends javax.swing.JFrame {
      }//GEN-LAST:event_btnBuscarMedActionPerformed
 
     private void jcbProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbProcedimientoActionPerformed
-        jcbProcedimiento.removeAllItems();
 
+
+    }//GEN-LAST:event_jcbProcedimientoActionPerformed
+
+    private void llnearjcbProcedimiento() {
         ArrayList<Procedimiento> listaTecnicos = proceDAO.obtenerTodos();
+        jcbProcedimiento.removeAllItems();
 
         if (listaTecnicos != null && !listaTecnicos.isEmpty()) {
             for (Procedimiento temp : listaTecnicos) {
@@ -351,37 +357,40 @@ public class VentanaMain extends javax.swing.JFrame {
         jcbProcedimiento.revalidate();
         jcbProcedimiento.repaint();
 
-
-    }//GEN-LAST:event_jcbProcedimientoActionPerformed
+    }
 
     private void btnAgregarProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProcedimientoActionPerformed
         VentanaCrearProcedimiento VCP = new VentanaCrearProcedimiento();
-        
+
         VCP.setResizable(false);
         VCP.setLocationRelativeTo(null);
         VCP.setTitle("Crear procedimiento");
         VCP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+
         VCP.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnAgregarProcedimientoActionPerformed
 
     private void btnAgregarMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMedicamentoActionPerformed
         VentanaCrearMedicamento VCM = new VentanaCrearMedicamento();
-        
+
         VCM.setResizable(false);
         VCM.setLocationRelativeTo(null);
         VCM.setTitle("Crear medicamento");
         VCM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+
         VCM.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnAgregarMedicamentoActionPerformed
 
     private void jcbMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbMedicamentoActionPerformed
-        jcbMedicamento.removeAllItems();
+
+    }//GEN-LAST:event_jcbMedicamentoActionPerformed
+
+    public void llenarjcbMedicamento() {
 
         ArrayList<Medicamento> listaMedicamentos = medDAO.obtenerTodos();
+        jcbMedicamento.removeAllItems();
 
         if (listaMedicamentos != null && !listaMedicamentos.isEmpty()) {
             for (Medicamento temp : listaMedicamentos) {
@@ -393,7 +402,7 @@ public class VentanaMain extends javax.swing.JFrame {
         jcbMedicamento.revalidate();
         jcbMedicamento.repaint();
 
-    }//GEN-LAST:event_jcbMedicamentoActionPerformed
+    }
 
     private void btnEliminarMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMedicamentoActionPerformed
         try {

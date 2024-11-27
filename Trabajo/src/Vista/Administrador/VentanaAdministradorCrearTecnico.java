@@ -148,8 +148,6 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         VAIE.setTitle("Técnicos");
         VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         VAIE.setVisible(true);
-
-        VAIE.setVisible(true);
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 

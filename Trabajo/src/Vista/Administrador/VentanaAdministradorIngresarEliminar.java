@@ -23,6 +23,8 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
      */
     public VentanaAdministradorIngresarEliminar() {
         initComponents();
+        llenarjbcUsuarios();
+
     }
 
     /**
@@ -159,22 +161,20 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jcbUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbUsuariosActionPerformed
-        jcbUsuarios.removeAllItems();
 
-        ArrayList<Tecnico> listaTecnicos = tecDAO.obtenerTodos();
-
-        if (listaTecnicos != null && !listaTecnicos.isEmpty()) {
-            for (Tecnico temp : listaTecnicos) {
-                jcbUsuarios.addItem(String.valueOf(temp.getRun_tec()));
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay técnicos disponibles.", "Información", JOptionPane.INFORMATION_MESSAGE);
-        }
-        jcbUsuarios.revalidate();
-        jcbUsuarios.repaint();
 
     }//GEN-LAST:event_jcbUsuariosActionPerformed
 
+    public void llenarjbcUsuarios() {
+
+        TecnicoDAO TDAO = new TecnicoDAO();
+        ArrayList<Tecnico> listaTecnicos = TDAO.obtenerTodos();
+        this.jcbUsuarios.removeAllItems();
+        for (Tecnico temp : listaTecnicos) {
+            this.jcbUsuarios.addItem(String.valueOf(temp.getRun_tec()));
+
+        }
+    }
     private void btnCrearNuevoTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoTecnicoActionPerformed
         // TODO add your handling code here:
         VentanaAdministradorCrearTecnico VACT = new VentanaAdministradorCrearTecnico();
@@ -191,12 +191,12 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
 
         VentanaPrincipal VP = new VentanaPrincipal();
-        
+
         VP.setResizable(false);
         VP.setLocationRelativeTo(null);
         VP.setTitle("Pacientes");
         VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+
         VP.setVisible(true);
         dispose();
 
@@ -219,9 +219,9 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 //barra con texto
             } else {
                 int runTec = Integer.parseInt(textoBuscar);
-                Tecnico tecnico = tecDAO.BuscarTecnicoPorRut(runTec);
-                if (tecnico != null) {
-                    modelo.addRow(new Object[]{tecnico.getRun_tec(), tecnico.getUsuario(), tecnico.getPasswrd()});
+                Tecnico tec = tecDAO.BuscarTecnicoPorRut(runTec);
+                if (tec != null) {
+                    modelo.addRow(new Object[]{tec.getRun_tec(), tec.getUsuario(), tec.getPasswrd()});
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un técnico con el RUN ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -257,8 +257,8 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                     ArrayList<Tecnico> listaTecnicos = tecDAO.obtenerTodos();
 
                     // Añadir los usuarios al JComboBox
-                    for (Tecnico tecnico : listaTecnicos) {
-                        jcbUsuarios.addItem(String.valueOf(tecnico.getRun_tec()));  // Asumimos que getUsuario() devuelve el nombre de usuario
+                    for (Tecnico tec : listaTecnicos) {
+                        jcbUsuarios.addItem(String.valueOf(tec.getRun_tec()));  // Asumimos que getUsuario() devuelve el nombre de usuario
                     }
                 } else {
                     JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el técnico.");
@@ -273,20 +273,20 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
+        
+        BBDDDAO bddao = new BBDDDAO();
+        BBDD bede = new BBDD();
+
+        bede.setOrigen(1);
+        bede.setTecnico(Integer.parseInt(usuarioSeleccionado));
+        bddao.modificarTecnico(bede);
+
         VentanaPaciente VP = new VentanaPaciente();
 
         VP.setResizable(false);
         VP.setLocationRelativeTo(null);
         VP.setTitle("Pacientes");
         VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-        BBDDDAO bddao = new BBDDDAO();
-        BBDD bd = new BBDD();
-
-        bd.setOrigen(1);
-
-        bd.setTecnico(Integer.parseInt(usuarioSeleccionado));
-        bddao.modificarTecnico(bd);
 
         JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
         VP.setVisible(true);

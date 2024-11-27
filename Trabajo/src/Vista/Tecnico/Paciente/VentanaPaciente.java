@@ -25,6 +25,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
      */
     public VentanaPaciente() {
         initComponents();
+         llenarjbcPacientes();
     }
 
     /**
@@ -240,16 +241,18 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
 
     private void jbcPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbcPacientesActionPerformed
-        jbcPacientes.setEnabled(true);
+       
+    }//GEN-LAST:event_jbcPacientesActionPerformed
+
+    public void llenarjbcPacientes() {
+         jbcPacientes.setEnabled(true);
         jbcPacientes.removeAllItems();
         ArrayList<Paciente> listaPacientes = pacDAO.obtenerTodos();
         for (Paciente temp : listaPacientes) {
             jbcPacientes.addItem(String.valueOf(temp.getRun_pac()));
         }
-        jbcPacientes.revalidate();
-        jbcPacientes.repaint();
-    }//GEN-LAST:event_jbcPacientesActionPerformed
-
+    }
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try {
 
