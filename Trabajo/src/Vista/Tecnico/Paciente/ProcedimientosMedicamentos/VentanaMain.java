@@ -271,7 +271,6 @@ public class VentanaMain extends javax.swing.JFrame {
             String textoBuscar = txtBuscarPro.getText().trim();
 
             if (textoBuscar.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo de búsqueda está vacío. Mostrando todos los procedimientos.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
                 ArrayList<Procedimiento> lista = new ArrayList<>();
                 lista = proceDAO.obtenerTodos();
@@ -307,7 +306,6 @@ public class VentanaMain extends javax.swing.JFrame {
             String textoBuscar = txtBuscarPro.getText().trim();
 
             if (textoBuscar.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo de búsqueda está vacío. Mostrando todos los medicamentos.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
                 ArrayList<Medicamento> lista = medDAO.obtenerTodos();
                 for (Medicamento tmp : lista) {

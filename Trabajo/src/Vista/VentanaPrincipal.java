@@ -132,6 +132,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         BBDD bede = new BBDD();
 
         bede.setOrigen(1);
+        
+        if (user.trim().length() == 0 && psswd.trim().length() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Casillas vacias");
+        }
 
         if (admDAO.validarAdm(user, psswd) != null) {
             VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
@@ -146,7 +150,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             bede.setAdministrador(admin.getId_admin());
             bd.modificarAdministrador(bede);
 
-            JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como admin");
+            JOptionPane.showMessageDialog(this, ("Bienvenid@, " + user));
             VAIE.setVisible(true);
             dispose();
         } else if (tecnoDAO.ValidarTec(user, psswd) != null) {
@@ -162,7 +166,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             bede.setTecnico(tecno.getRun_tec());
             bd.modificarTecnico(bede);
 
-            JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
+            JOptionPane.showMessageDialog(this, ("Bienvenid@, " + user));
             VP.setVisible(true);
             dispose();
         } else {

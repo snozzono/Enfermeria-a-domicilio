@@ -261,10 +261,8 @@ public class VentanaPaciente extends javax.swing.JFrame {
             String textoBuscar = txtBuscar.getText().trim();
 
             if (textoBuscar.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo de búsqueda está vacío. Mostrando todos los pacientes.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
-                ArrayList<Paciente> lista = new ArrayList<>();
-                lista = pacDAO.obtenerTodos();
+                ArrayList<Paciente> lista = pacDAO.obtenerTodos();
                 for (Paciente tmp : lista) {
                     modelo.addRow(new Object[]{tmp.getRun_pac(), tmp.getNombre_p(), tmp.getDiagn()});
                 }
@@ -278,6 +276,9 @@ public class VentanaPaciente extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "No se encontró un paciente con el RUN ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
+            
+            llenarjbcPacientes();
+            
         } catch (NumberFormatException e) {
             // Mostrar mensaje si el texto ingresado no es un número
             JOptionPane.showMessageDialog(this, "Ingrese un número válido en el campo de búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);

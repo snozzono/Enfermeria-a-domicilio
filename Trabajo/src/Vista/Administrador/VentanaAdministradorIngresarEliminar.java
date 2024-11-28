@@ -23,7 +23,6 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
      */
     public VentanaAdministradorIngresarEliminar() {
         initComponents();
-        llenarjbcUsuarios();
 
     }
 
@@ -90,7 +89,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtTecnico);
 
-        jcbUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcbUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         jcbUsuarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jcbUsuariosActionPerformed(evt);
@@ -208,15 +207,13 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
             DefaultTableModel modelo = (DefaultTableModel) this.jtTecnico.getModel();
             modelo.setRowCount(0); // Limpiar tabla
             String textoBuscar = txtBuscar.getText().trim();
-
+            
             if (textoBuscar.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "El campo de búsqueda está vacío. Mostrando todos los técnicos.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
                 ArrayList<Tecnico> lista = tecDAO.obtenerTodos();
                 for (Tecnico tmp : lista) {
                     modelo.addRow(new Object[]{tmp.getRun_tec(), tmp.getUsuario(), tmp.getPasswrd()});
                 }
-                //barra con texto
             } else {
                 int runTec = Integer.parseInt(textoBuscar);
                 Tecnico tec = tecDAO.BuscarTecnicoPorRut(runTec);
@@ -225,7 +222,11 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un técnico con el RUN ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
+                
             }
+            
+             llenarjbcUsuarios();
+            
         } catch (NumberFormatException e) {
             // Mostrar mensaje si el texto ingresado no es un número
             JOptionPane.showMessageDialog(this, "Ingrese un número válido en el campo de búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -288,7 +289,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         VP.setTitle("Pacientes");
         VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        JOptionPane.showMessageDialog(this, "Bienvenido, Ingresaste como Tecnico");
+        JOptionPane.showMessageDialog(this, ("Ingresaste como " + usuarioSeleccionado));
         VP.setVisible(true);
         dispose();
 
