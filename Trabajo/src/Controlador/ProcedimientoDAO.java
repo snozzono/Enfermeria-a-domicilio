@@ -16,7 +16,7 @@ public class ProcedimientoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "insert into tbProcedimiento (id_pr,precio,nombre,descr) values(?,?,?,?)";
+            String query = "insert into tbProcedimiento (id_pr,precio,nombre,descr, fecha, pago ,pac_run_pac) values(?,?,?,?,?,?,(SELECT paciente FROM tbdecisiones WHERE llamado = 1))";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, pr.getId_pr());
@@ -27,7 +27,6 @@ public class ProcedimientoDAO {
             ps.setBoolean(6, pr.isPago());
 
             resultado = ps.executeUpdate() == 1;
-            ps.close();
 
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -98,7 +97,7 @@ public class ProcedimientoDAO {
         Procedimiento tecnico = new Procedimiento();
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT id_pr,precio, nombre,descr,pago,fecha FROM tbProcedimiento where pac_run_pac = (SELECT paciente FROM  tbdecisiones)";
+            String query = "SELECT id_pr,precio, nombre,descr,pago,fecha FROM tbProcedimiento where pac_run_pac = (SELECT paciente FROM  tbdecisiones) AND id_pr= ?";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, id);
@@ -112,6 +111,35 @@ public class ProcedimientoDAO {
                 tecnico.setDescr(rs.getString("Descr"));
                 tecnico.setPago(rs.getBoolean("pago"));
                 tecnico.setFecha(rs.getDate("fecha"));
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tecnico;
+    }
+
+    public Procedimiento ValidarProcedimiento(String nombre, Date fecha) {
+        Procedimiento tecnico = null;
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "SELECT precio, fecha FROM tbProcedimiento where pac_run_pac = (SELECT paciente FROM  tbdecisiones) AND nombre = ? AND fecha = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ps.setString(1, nombre);
+            ps.setDate(2, new java.sql.Date(fecha.getTime()));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                tecnico = new Procedimiento(rs.getInt("id_pr"), rs.getInt("precio"), rs.getString("nombre"), rs.getString("Descr"), rs.getBoolean("pago"), rs.getDate("fecha"));
+                /*
+                tecnico.setId_pr(rs.getInt("id_pr"));
+                tecnico.setPrecio(rs.getInt("precio"));
+                tecnico.setNombre(rs.getString("nombre"));
+                tecnico.setDescr(rs.getString("Descr"));
+                tecnico.setPago(rs.getBoolean("pago"));
+                tecnico.setFecha(rs.getDate("fecha"));
+                 */
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);

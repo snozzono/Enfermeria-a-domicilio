@@ -8,6 +8,8 @@ import Modelo.Tecnico;
 import Vista.Tecnico.Paciente.VentanaPaciente;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -25,6 +27,11 @@ public class VentanaMain extends javax.swing.JFrame {
         initComponents();
         llenarjcbMedicamento();
         llnearjcbProcedimiento();
+
+        /*
+        llenarjcbMedicamento();
+        llnearjcbProcedimiento();
+         */
     }
 
     /**
@@ -235,38 +242,24 @@ public class VentanaMain extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnEliminarProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProcedimientoActionPerformed
+
+        String usuarioSeleccionado = (String) jcbProcedimiento.getSelectedItem();
         try {
-            String usuarioSeleccionado = (String) jcbProcedimiento.getSelectedItem();
-            if (usuarioSeleccionado != null) {
-                boolean eliminado = proceDAO.eliminarProcedimiento(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
-                if (eliminado) {
-                    // actualizar tabla
-                    JOptionPane.showMessageDialog(this, "El procedimiento fue eliminado exitosamente.");
-                    DefaultTableModel modelo = (DefaultTableModel) jtProcedimiento.getModel();
-                    modelo.setRowCount(0); // Limpiar tabla
-                    ArrayList<Procedimiento> lista = proceDAO.obtenerTodos();
-                    for (Procedimiento tmp : lista) {
-                        modelo.addRow(new Object[]{tmp.getId_pr(), tmp.getPrecio(), tmp.getNombre(), tmp.getDescr(), tmp.isPago(), tmp.getFecha()});
-                    }
-                    // actualizar combobox
-                    jcbProcedimiento.removeAllItems(); // Limpiar los items previos
-
-                    // Obtener la lista de técnicos
-                    ArrayList<Procedimiento> listaTecnicos = proceDAO.obtenerTodos();
-
-                    // Añadir los usuarios al JComboBox
-                    for (Procedimiento tecnico : listaTecnicos) {
-                        jcbProcedimiento.addItem(String.valueOf(tecnico.getId_pr()));  // Asumimos que getUsuario() devuelve el nombre de usuario
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el procedimiento.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione un procedimiento para eliminar.");
-            }
-        } catch (HeadlessException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(this, "e.");
+            proceDAO.eliminarProcedimiento(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(VentanaMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        // actualizar tabla
+        JOptionPane.showMessageDialog(this, "El procedimiento fue eliminado exitosamente.");
+        DefaultTableModel modelo = (DefaultTableModel) jtProcedimiento.getModel();
+        modelo.setRowCount(0); // Limpiar tabla
+        ArrayList<Procedimiento> lista = proceDAO.obtenerTodos();
+        for (Procedimiento tmp : lista) {
+            modelo.addRow(new Object[]{tmp.getId_pr(), tmp.getPrecio(), tmp.getNombre(), tmp.getDescr(), tmp.isPago(), tmp.getFecha()});
+        }
+        llnearjcbProcedimiento();
+
     }//GEN-LAST:event_btnEliminarProcedimientoActionPerformed
 
     private void btnBuscarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProActionPerformed
@@ -285,12 +278,14 @@ public class VentanaMain extends javax.swing.JFrame {
                 for (Procedimiento tmp : lista) {
                     modelo.addRow(new Object[]{tmp.getId_pr(), tmp.getFecha(), tmp.getNombre(), tmp.getDescr(), tmp.getPrecio(), tmp.isPago()});
                 }
+                llnearjcbProcedimiento();
                 //barra con texto
             } else {
                 int runTec = Integer.parseInt(textoBuscar);
                 proce = proceDAO.BuscarProcedimiento(runTec);
                 if (proce != null) {
                     modelo.addRow(new Object[]{proce.getId_pr(), proce.getPrecio(), proce.getNombre(), proce.getDescr(), proce.isPago(), proce.getFecha()});
+                    llnearjcbProcedimiento();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un procedimiento con el ID ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -314,17 +309,18 @@ public class VentanaMain extends javax.swing.JFrame {
             if (textoBuscar.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "El campo de búsqueda está vacío. Mostrando todos los medicamentos.", "Información", JOptionPane.INFORMATION_MESSAGE);
 
-                ArrayList<Medicamento> lista = new ArrayList<>();
-                lista = medDAO.obtenerTodos();
+                ArrayList<Medicamento> lista = medDAO.obtenerTodos();
                 for (Medicamento tmp : lista) {
                     modelo.addRow(new Object[]{tmp.isCronico(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
                 }
+                llenarjcbMedicamento();
                 //barra con texto
             } else {
                 int runTec = Integer.parseInt(textoBuscar);
                 med = medDAO.BuscarMedicamento(runTec);
                 if (med != null) {
                     modelo.addRow(new Object[]{med.isCronico(), med.getCiclo(), med.getId_med(), med.getNombre_med(), med.getTomar()});
+                    llenarjcbMedicamento();
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un Medicamento con el ID ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -344,21 +340,17 @@ public class VentanaMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jcbProcedimientoActionPerformed
 
     private void llnearjcbProcedimiento() {
+
         ArrayList<Procedimiento> listaTecnicos = proceDAO.obtenerTodos();
         jcbProcedimiento.removeAllItems();
+        for (Procedimiento temp : listaTecnicos) {
+            jcbProcedimiento.addItem(String.valueOf(temp.getId_pr()));
 
-        if (listaTecnicos != null && !listaTecnicos.isEmpty()) {
-            for (Procedimiento temp : listaTecnicos) {
-                jcbProcedimiento.addItem(String.valueOf(temp.getId_pr()));
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay procedimientos registrados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            jcbProcedimiento.revalidate();
+            jcbProcedimiento.repaint();
+
         }
-        jcbProcedimiento.revalidate();
-        jcbProcedimiento.repaint();
-
     }
-
     private void btnAgregarProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProcedimientoActionPerformed
         VentanaCrearProcedimiento VCP = new VentanaCrearProcedimiento();
 
@@ -391,48 +383,33 @@ public class VentanaMain extends javax.swing.JFrame {
 
         ArrayList<Medicamento> listaMedicamentos = medDAO.obtenerTodos();
         jcbMedicamento.removeAllItems();
+        for (Medicamento temp : listaMedicamentos) {
+            jcbMedicamento.addItem(String.valueOf(temp.getId_med()));
 
-        if (listaMedicamentos != null && !listaMedicamentos.isEmpty()) {
-            for (Medicamento temp : listaMedicamentos) {
-                jcbMedicamento.addItem(String.valueOf(temp.getId_med()));
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "No hay Medicamentos registrados.", "Información", JOptionPane.INFORMATION_MESSAGE);
+            jcbMedicamento.revalidate();
+            jcbMedicamento.repaint();
+
         }
-        jcbMedicamento.revalidate();
-        jcbMedicamento.repaint();
-
     }
 
     private void btnEliminarMedicamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMedicamentoActionPerformed
         try {
             String usuarioSeleccionado = (String) jcbMedicamento.getSelectedItem();
             if (usuarioSeleccionado != null) {
-                boolean eliminado = medDAO.eliminarMedicamento(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
-                if (eliminado) {
-                    // actualizar tabla
-                    JOptionPane.showMessageDialog(this, "El medicamento fue eliminado exitosamente.");
-                    DefaultTableModel modelo = (DefaultTableModel) jtMedicamento.getModel();
-                    modelo.setRowCount(0); // Limpiar tabla
-                    ArrayList<Medicamento> lista = medDAO.obtenerTodos();
-                    for (Medicamento tmp : lista) {
-                        modelo.addRow(new Object[]{tmp.isCronico(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
-                    }
-                    // actualizar combobox
-                    jcbMedicamento.removeAllItems(); // Limpiar los items previos
-
-                    // Obtener la lista de técnicos
-                    ArrayList<Medicamento> listaTecnicos = medDAO.obtenerTodos();
-
-                    // Añadir los usuarios al JComboBox
-                    for (Medicamento tecnico : listaTecnicos) {
-                        jcbMedicamento.addItem(String.valueOf(tecnico.getId_med()));  // Asumimos que getUsuario() devuelve el nombre de usuario
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el medicamento.");
+                medDAO.eliminarMedicamento(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
+                // actualizar tabla
+                JOptionPane.showMessageDialog(this, "El medicamento fue eliminado exitosamente.");
+                DefaultTableModel modelo = (DefaultTableModel) jtMedicamento.getModel();
+                modelo.setRowCount(0); // Limpiar tabla
+                ArrayList<Medicamento> lista = medDAO.obtenerTodos();
+                for (Medicamento tmp : lista) {
+                    modelo.addRow(new Object[]{tmp.isCronico(), tmp.getCiclo(), tmp.getId_med(), tmp.getNombre_med(), tmp.getTomar()});
                 }
+                // actualizar combobox
+                llenarjcbMedicamento();
+
             } else {
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione un medicamento para eliminar.");
+                JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el medicamento.");
             }
         } catch (HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(this, "e.");

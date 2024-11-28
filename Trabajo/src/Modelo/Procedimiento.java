@@ -9,12 +9,6 @@ public class Procedimiento {
     boolean pago;
     Date fecha;
 
-    public Procedimiento(int id_pr, int precio, String nombre, String desc) {
-        this.id_pr = id_pr;
-        this.precio = precio;
-        this.nombre = nombre;
-        this.descr = desc;
-    }
 
     public Procedimiento(int id_pr, int precio, String nombre, String descr, boolean pago, Date fecha) {
         this.id_pr = id_pr;

@@ -96,7 +96,7 @@ public class MedicamentoDAO {
         Medicamento tecnico = new Medicamento();
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT id_med, cant, ciclo, nombre_med, tomar FROM tbMedicamento where id_med=?";
+            String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where id_med=?";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, run_tec);
