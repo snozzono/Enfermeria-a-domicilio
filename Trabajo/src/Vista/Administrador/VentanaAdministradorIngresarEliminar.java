@@ -274,7 +274,8 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
-        
+        int usuario = Integer.parseInt(usuarioSeleccionado);
+    
         BBDDDAO bddao = new BBDDDAO();
         BBDD bede = new BBDD();
 
@@ -289,7 +290,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         VP.setTitle("Pacientes");
         VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        JOptionPane.showMessageDialog(this, ("Ingresaste como " + usuarioSeleccionado));
+        JOptionPane.showMessageDialog(this, ("Ingresaste como " + tecDAO.BuscarTecnicoPorRut(usuario).getUsuario()));
         VP.setVisible(true);
         dispose();
 

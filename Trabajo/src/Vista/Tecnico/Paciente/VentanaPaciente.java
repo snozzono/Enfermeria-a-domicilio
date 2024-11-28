@@ -25,7 +25,6 @@ public class VentanaPaciente extends javax.swing.JFrame {
      */
     public VentanaPaciente() {
         initComponents();
-         llenarjbcPacientes();
     }
 
     /**
@@ -84,7 +83,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtPaciente);
 
-        jbcPacientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jbcPacientes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { }));
         jbcPacientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbcPacientesActionPerformed(evt);
@@ -181,15 +180,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
                         modelo.addRow(new Object[]{tmp.getRun_pac(), tmp.getNombre_p(), tmp.getDiagn()});
                     }
                     // actualizar combobox
-                    jbcPacientes.removeAllItems(); // Limpiar los items previos
-
-                    // Obtener la lista de técnicos
-                    ArrayList<Paciente> listaTecnicos = pacDAO.obtenerTodos();
-
-                    // Añadir los usuarios al JComboBox
-                    for (Paciente tecnico : listaTecnicos) {
-                        jbcPacientes.addItem(String.valueOf(tecnico.getRun_pac()));  // Asumimos que getUsuario() devuelve el nombre de usuario
-                    }
+                   llenarjbcPacientes();
                 } else {
                     JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el paciente.");
                 }

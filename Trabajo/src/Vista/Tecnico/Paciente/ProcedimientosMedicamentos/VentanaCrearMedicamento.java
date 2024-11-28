@@ -203,6 +203,8 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
             medicamento = new Medicamento(id_med, cronico, ciclo, nombre_med, fecha);
             medicamentoDAO.ingresarMed(medicamento);
 
+            JOptionPane.showMessageDialog(rootPane, (nombre_med + "agregado a los medicamentos"));
+
             VentanaMain VM = new VentanaMain();
 
             VM.setResizable(false);
@@ -211,7 +213,7 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
             VM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
             VM.setVisible(true);
-            JOptionPane.showMessageDialog(rootPane, (nombre_med + "agregado a los medicamentos"));
+
             dispose();
 
         } else {

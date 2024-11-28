@@ -16,13 +16,14 @@ public class MedicamentoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "insert into tbMedicamento (id_med,cronico,ciclo,nombre_med,tomar) values(?,?,?,?,?)";
+            String query = "insert into tbMedicamento (id_med,cronico,ciclo,nombre_med,tomar, pac_run_pac) values(?,?,?,?,?, (SELECT paciente FROM tbdecisiones WHERE llamado = 1))";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, med.getId_med());
             ps.setBoolean(2, med.isCronico());
-            ps.setString(3, med.getNombre_med());
-            ps.setDate(4, med.getTomar());
+            ps.setInt(3, med.getCiclo());
+            ps.setString(4, med.getNombre_med());
+            ps.setDate(5, med.getTomar());
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
@@ -56,7 +57,7 @@ public class MedicamentoDAO {
         ArrayList<Medicamento> tec = new ArrayList<>();
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where pac_run_pac = (SELECT paciente FROM  tbdecisiones)";
+            String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where pac_run_pac = (SELECT paciente FROM  tbdecisiones WHERE llamado = 1)";
             PreparedStatement ps = con.prepareStatement(query);
 
             ResultSet rs = ps.executeQuery();
@@ -94,6 +95,7 @@ public class MedicamentoDAO {
 
     public Medicamento BuscarMedicamento(int run_tec) {
         Medicamento tecnico = new Medicamento();
+        tecnico = null;
         try {
             Connection con = Conexion.getConexion();
             String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where id_med=?";
