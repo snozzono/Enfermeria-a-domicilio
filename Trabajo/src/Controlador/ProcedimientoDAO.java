@@ -94,8 +94,7 @@ public class ProcedimientoDAO {
     }
 
     public Procedimiento BuscarProcedimiento(int id) {
-        Procedimiento tecnico = new Procedimiento();
-        tecnico = null;
+        Procedimiento tecnico = null;
         try {
             Connection con = Conexion.getConexion();
             String query = "SELECT id_pr,precio, nombre,descr,pago,fecha FROM tbProcedimiento where pac_run_pac = (SELECT paciente FROM  tbdecisiones) AND id_pr= ?";
@@ -106,6 +105,7 @@ public class ProcedimientoDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+                tecnico = new Procedimiento();
                 tecnico.setId_pr(rs.getInt("id_pr"));
                 tecnico.setPrecio(rs.getInt("precio"));
                 tecnico.setNombre(rs.getString("nombre"));

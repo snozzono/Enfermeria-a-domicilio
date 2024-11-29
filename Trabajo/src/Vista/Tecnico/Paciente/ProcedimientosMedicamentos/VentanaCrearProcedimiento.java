@@ -162,26 +162,25 @@ public class VentanaCrearProcedimiento extends javax.swing.JFrame {
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
 
         ProcedimientoDAO procedimientoDAO = new ProcedimientoDAO();
-        
-                    Random rand = new Random();
 
-            int id = rand.nextInt(1000);
-            int precio = Integer.parseInt(txtPrecio.getText());
-            String descripcion = txtDescripcion.getText();
-            boolean pago = jcbPago.isSelected();
+        Random rand = new Random();
 
-            String nombre = txtNombre.getText().trim();
+        int id = rand.nextInt(1000);
+        int precio = Integer.parseInt(txtPrecio.getText());
+        String descripcion = txtDescripcion.getText();
+        boolean pago = jcbPago.isSelected();
 
-            java.util.Date temp = jdcFecha.getDate();
-            java.sql.Date fecha = new java.sql.Date(temp.getTime());
+        String nombre = txtNombre.getText().trim();
 
-            
+        java.util.Date temp = jdcFecha.getDate();
+        java.sql.Date fecha = new java.sql.Date(temp.getTime());
 
         if (txtNombre.getText().length() > 0 && txtPrecio.getText().length() > 0 && procedimientoDAO.ValidarProcedimiento(nombre, fecha) == null) {
-            
+
             Procedimiento procedimiento = new Procedimiento(id, precio, nombre, descripcion, pago, fecha);
             procedimientoDAO.ingresarProc(procedimiento);
-
+            JOptionPane.showMessageDialog(rootPane, (nombre + "agregado a los procedimientos"));
+            dispose();
             VentanaMain VM = new VentanaMain();
 
             VM.setResizable(false);
@@ -190,8 +189,8 @@ public class VentanaCrearProcedimiento extends javax.swing.JFrame {
             VM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
             VM.setVisible(true);
-            JOptionPane.showMessageDialog(rootPane, (nombre + "agregado a los procedimientos"));
-            dispose();
+
+            
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "ingresa almenos el nombre y un precio");

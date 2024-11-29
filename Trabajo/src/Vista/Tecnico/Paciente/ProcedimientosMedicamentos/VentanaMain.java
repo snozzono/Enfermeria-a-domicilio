@@ -246,6 +246,10 @@ public class VentanaMain extends javax.swing.JFrame {
     private void btnEliminarProcedimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarProcedimientoActionPerformed
 
         String usuarioSeleccionado = (String) jcbProcedimiento.getSelectedItem();
+        if (proceDAO.obtenerTodos().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "No hay nada para eliminar");
+        }
+        else {
         if (usuarioSeleccionado != null) {
             try {
                 proceDAO.eliminarProcedimiento(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
@@ -257,31 +261,36 @@ public class VentanaMain extends javax.swing.JFrame {
 
         } else {
             JOptionPane.showMessageDialog(rootPane, "Elige el id de algún procedimiento primero");
-        }
+        }}
 
     }//GEN-LAST:event_btnEliminarProcedimientoActionPerformed
 
     private void btnBuscarProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarProActionPerformed
 
         String textoBuscar = txtBuscarPro.getText().trim();
-
-        if (textoBuscar.isEmpty()) {
-
-            llnearjcbProcedimiento();
+        if (proceDAO.obtenerTodos().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "No hay procedimientos registrados");
 
         } else {
+            if (textoBuscar.isEmpty()) {
 
-            int id = Integer.parseInt(textoBuscar);
-
-            proce = proceDAO.BuscarProcedimiento(id);
-            if (proce != null) {
-                DefaultTableModel modelo = (DefaultTableModel) jtProcedimiento.getModel();
-                modelo.setRowCount(0); // Limpiar tabla
-                modelo.addRow(new Object[]{proce.getId_pr(), proce.getPrecio(), proce.getNombre(), proce.getDescr(), proce.isPago(), proce.getFecha()});
-                jcbProcedimiento.addItem(String.valueOf(proce.getId_pr()));
+                llnearjcbProcedimiento();
 
             } else {
-                JOptionPane.showMessageDialog(this, "No se encontró un Medicamento con el ID ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+
+                int id = Integer.parseInt(textoBuscar);
+
+                proce = proceDAO.BuscarProcedimiento(id);
+                if (proce != null) {
+                    jcbProcedimiento.removeAllItems();
+                    DefaultTableModel modelo = (DefaultTableModel) jtProcedimiento.getModel();
+                    modelo.setRowCount(0); // Limpiar tabla
+                    modelo.addRow(new Object[]{proce.getId_pr(), proce.getPrecio(), proce.getNombre(), proce.getDescr(), proce.isPago(), proce.getFecha()});
+                    jcbProcedimiento.addItem(String.valueOf(proce.getId_pr()));
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se encontró un Medicamento con el ID ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         }
 

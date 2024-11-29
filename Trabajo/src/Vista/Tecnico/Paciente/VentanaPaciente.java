@@ -180,7 +180,9 @@ public class VentanaPaciente extends javax.swing.JFrame {
                 try {
                     String pepe = pacDAO.buscarPac(Integer.parseInt(run)).getNombre_p();
                     pacDAO.eliminarPaciente(run);
-                    JOptionPane.showMessageDialog(rootPane, (pepe + "ha sido dado de alta"));
+                    JOptionPane.showMessageDialog(rootPane, (pepe + " ha sido dado de alta"));
+                    llenarjtTable();
+                    llenarjbcPacientes();
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(VentanaPaciente.class.getName()).log(Level.SEVERE, null, ex);
                 }
