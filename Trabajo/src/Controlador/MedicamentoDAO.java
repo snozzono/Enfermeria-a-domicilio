@@ -16,7 +16,7 @@ public class MedicamentoDAO {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "insert into tbMedicamento (id_med,cronico,ciclo,nombre_med,tomar, pac_run_pac) values(?,?,?,?,?, (SELECT paciente FROM tbdecisiones WHERE llamado = 1))";
+            String query = "insert into tbMedicamento (id_med,cronico,ciclo,nombre_med,tomar, pac_run_pac) values (?,?,?,?,?, (SELECT paciente FROM tbdecisiones WHERE llamado = 1))";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, med.getId_med());
@@ -26,7 +26,6 @@ public class MedicamentoDAO {
             ps.setDate(5, med.getTomar());
 
             resultado = ps.executeUpdate() == 1;
-            ps.close();
 
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(MedicamentoDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,11 +93,10 @@ public class MedicamentoDAO {
     }
 
     public Medicamento BuscarMedicamento(int run_tec) {
-        Medicamento tecnico = new Medicamento();
-        tecnico = null;
+        Medicamento tecnico = null ;       
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where id_med=?";
+            String query = "SELECT id_med, cronico, ciclo, nombre_med, tomar FROM tbMedicamento where id_med=? AND pac_run_pac = (SELECT paciente FROM tbdecisiones WHERE llamado = 1)";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, run_tec);
@@ -106,7 +104,8 @@ public class MedicamentoDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                tecnico.setCronico(rs.getBoolean("cant"));
+                tecnico = new Medicamento();
+                tecnico.setCronico(rs.getBoolean("cronico"));
                 tecnico.setCiclo(rs.getInt("ciclo"));
                 tecnico.setId_med(rs.getInt("id_med"));
                 tecnico.setNombre_med(rs.getString("nombre_med"));

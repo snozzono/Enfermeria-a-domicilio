@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import Vista.Tecnico.Paciente.ProcedimientosMedicamentos.VentanaMain;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VentanaPaciente extends javax.swing.JFrame {
 
@@ -25,6 +27,8 @@ public class VentanaPaciente extends javax.swing.JFrame {
      */
     public VentanaPaciente() {
         initComponents();
+        llenarjtTable();
+        llenarjbcPacientes();
     }
 
     /**
@@ -90,7 +94,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
             }
         });
 
-        btnCrearPaciente.setText("Crear Paciente");
+        btnCrearPaciente.setText("Añadir paciente");
         btnCrearPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearPacienteActionPerformed(evt);
@@ -127,8 +131,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnCrearPaciente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVolver)
-                        .addGap(9, 9, 9))
+                        .addComponent(btnVolver))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
@@ -166,6 +169,26 @@ public class VentanaPaciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+
+        String run = jbcPacientes.getSelectedItem().toString();
+        if (pacDAO.obtenerTodos().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "No hay pacientes para eliminar");
+        } else {
+            if (run == null) {
+                JOptionPane.showMessageDialog(rootPane, "Elija el rut de algún paciente para darlo de alta");
+            } else {
+                try {
+                    String pepe = pacDAO.buscarPac(Integer.parseInt(run)).getNombre_p();
+                    pacDAO.eliminarPaciente(run);
+                    JOptionPane.showMessageDialog(rootPane, (pepe + "ha sido dado de alta"));
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(VentanaPaciente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        }
+
+        /*
         try {
             String usuarioSeleccionado = (String) jbcPacientes.getSelectedItem();
             if (usuarioSeleccionado != null) {
@@ -173,14 +196,9 @@ public class VentanaPaciente extends javax.swing.JFrame {
                 if (eliminado) {
                     // actualizar tabla
                     JOptionPane.showMessageDialog(this, "El técnico fue eliminado exitosamente.");
-                    DefaultTableModel modelo = (DefaultTableModel) jtPaciente.getModel();
-                    modelo.setRowCount(0); // Limpiar tabla
-                    ArrayList<Paciente> lista = pacDAO.obtenerTodos();
-                    for (Paciente tmp : lista) {
-                        modelo.addRow(new Object[]{tmp.getRun_pac(), tmp.getNombre_p(), tmp.getDiagn()});
-                    }
+                    llenarjtTable();
                     // actualizar combobox
-                   llenarjbcPacientes();
+                    llenarjbcPacientes();
                 } else {
                     JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el paciente.");
                 }
@@ -190,6 +208,8 @@ public class VentanaPaciente extends javax.swing.JFrame {
         } catch (HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(this, "e.");
         }
+        
+         */
      }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCrearPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPacienteActionPerformed
@@ -198,7 +218,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
         VCP.setResizable(false);
         VCP.setLocationRelativeTo(null);
-        VCP.setTitle("Crear paciente");
+        VCP.setTitle("Añadir paciente");
         VCP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         VCP.setVisible(true);
@@ -232,18 +252,27 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
 
     private void jbcPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbcPacientesActionPerformed
-       
+
     }//GEN-LAST:event_jbcPacientesActionPerformed
 
     public void llenarjbcPacientes() {
-         jbcPacientes.setEnabled(true);
+        jbcPacientes.setEnabled(true);
         jbcPacientes.removeAllItems();
         ArrayList<Paciente> listaPacientes = pacDAO.obtenerTodos();
         for (Paciente temp : listaPacientes) {
             jbcPacientes.addItem(String.valueOf(temp.getRun_pac()));
         }
     }
-    
+
+    public void llenarjtTable() {
+        DefaultTableModel modelo = (DefaultTableModel) jtPaciente.getModel();
+        modelo.setRowCount(0); // Limpiar tabla
+        ArrayList<Paciente> lista = pacDAO.obtenerTodos();
+        for (Paciente tmp : lista) {
+            modelo.addRow(new Object[]{tmp.getRun_pac(), tmp.getNombre_p(), tmp.getDiagn()});
+        }
+    }
+
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try {
 
@@ -257,19 +286,23 @@ public class VentanaPaciente extends javax.swing.JFrame {
                 for (Paciente tmp : lista) {
                     modelo.addRow(new Object[]{tmp.getRun_pac(), tmp.getNombre_p(), tmp.getDiagn()});
                 }
-                //barra con texto
+                llenarjbcPacientes();
+                if (lista.isEmpty()) {
+                    JOptionPane.showMessageDialog(rootPane, "Este tecnico no tiene pacientes registrados");
+                }
             } else {
                 int runTec = Integer.parseInt(textoBuscar);
-                Paciente paciente = pacDAO.buscarPac(runTec);
-                if (paciente != null) {
-                    modelo.addRow(new Object[]{paciente.getRun_pac(), paciente.getNombre_p(), paciente.getDiagn()});
+                Paciente paci = pacDAO.buscarPac(runTec);
+                if (paci != null) {
+                    jbcPacientes.removeAllItems();
+                    modelo.addRow(new Object[]{paci.getRun_pac(), paci.getNombre_p(), paci.getDiagn()});
+                    jbcPacientes.addItem(String.valueOf(paci.getRun_pac()));
                 } else {
                     JOptionPane.showMessageDialog(this, "No se encontró un paciente con el RUN ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
+                    jbcPacientes.removeAllItems();
                 }
             }
-            
-            llenarjbcPacientes();
-            
+
         } catch (NumberFormatException e) {
             // Mostrar mensaje si el texto ingresado no es un número
             JOptionPane.showMessageDialog(this, "Ingrese un número válido en el campo de búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);

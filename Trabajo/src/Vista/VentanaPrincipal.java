@@ -132,12 +132,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         BBDD bede = new BBDD();
 
         bede.setOrigen(1);
-        
+
         if (user.trim().length() == 0 && psswd.trim().length() == 0) {
             JOptionPane.showMessageDialog(rootPane, "Casillas vacias");
-        }
-
-        if (admDAO.validarAdm(user, psswd) != null) {
+        } else if (admDAO.validarAdm(user, psswd) != null) {
             VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
 
             VAIE.setResizable(false);
@@ -181,12 +179,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public static void main(String[] args) {
         // TODO code application logic here
         VentanaPrincipal v = new VentanaPrincipal();
-        
+
         v.setResizable(false);
         v.setLocationRelativeTo(null);
         v.setTitle("Inicio");
         v.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        
+
         v.setVisible(true);
     }
 

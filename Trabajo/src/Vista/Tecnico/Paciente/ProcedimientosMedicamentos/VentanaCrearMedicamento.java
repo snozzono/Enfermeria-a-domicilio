@@ -10,6 +10,10 @@ import javax.swing.JButton;
 
 public class VentanaCrearMedicamento extends javax.swing.JFrame {
 
+    Medicamento medicamento = new Medicamento();
+    MedicamentoDAO medicamentoDAO = new MedicamentoDAO();
+    Random rand = new Random();
+
     /**
      * Creates new form VentanaCrearMedicamento
      */
@@ -180,11 +184,6 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
 
-        Medicamento medicamento = new Medicamento();
-        MedicamentoDAO medicamentoDAO = new MedicamentoDAO();
-
-        Random rand = new Random();
-
         Date fecha;
 
         if (txtNombre.getText().trim().length() > 0) {
@@ -203,7 +202,7 @@ public class VentanaCrearMedicamento extends javax.swing.JFrame {
             medicamento = new Medicamento(id_med, cronico, ciclo, nombre_med, fecha);
             medicamentoDAO.ingresarMed(medicamento);
 
-            JOptionPane.showMessageDialog(rootPane, (nombre_med + "agregado a los medicamentos"));
+            JOptionPane.showMessageDialog(rootPane, (nombre_med + " agregado a los medicamentos"));
 
             VentanaMain VM = new VentanaMain();
 

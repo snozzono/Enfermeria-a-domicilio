@@ -87,7 +87,7 @@ public class PacienteDAO {
         Paciente paciente = null;
         try {
             Connection con = Conexion.getConexion();
-            String query = "select run_pac from tbPaciente where run_pac=?";
+            String query = "select run_pac, nombre_p, diagn from tbPaciente where run_pac=?";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, rut);
@@ -95,7 +95,7 @@ public class PacienteDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                paciente = new Paciente(rs.getInt("run_pac"));
+                paciente = new Paciente(rs.getInt("run_pac"), rs.getString("nombre_p"), rs.getString("diagn"));
             }
             ps.close();
         } catch (SQLException | ClassNotFoundException ex) {

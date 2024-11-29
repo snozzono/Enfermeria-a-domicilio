@@ -88,7 +88,7 @@ public class TecnicoDAO {
         }
         return resultado;
     }
-    
+
     public ArrayList<Tecnico> obtenerTodos() {
         ArrayList<Tecnico> tec = new ArrayList<>();
         try {
@@ -131,10 +131,10 @@ public class TecnicoDAO {
     }
 
     public Tecnico BuscarTecnicoPorRut(int run_tec) {
-        Tecnico tecnico = new Tecnico();
+        Tecnico tecnico = null;
         try {
             Connection con = Conexion.getConexion();
-            String query = "select run_tec, usuario, passwrd from tbTecnico where run_tec=?";
+            String query = "SELECT run_tec, usuario, passwrd FROM tbTecnico WHERE run_tec=? AND admin_id_admin = (SELECT administrador FROM tbdecisiones)";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, run_tec);
@@ -142,6 +142,7 @@ public class TecnicoDAO {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+                tecnico = new Tecnico();
                 tecnico.setRun_tec(rs.getInt("run_tec"));
                 tecnico.setUsuario(rs.getString("usuario"));
                 tecnico.setPasswrd(rs.getString("passwrd"));

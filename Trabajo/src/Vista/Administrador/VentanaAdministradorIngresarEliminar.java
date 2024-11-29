@@ -23,6 +23,8 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
      */
     public VentanaAdministradorIngresarEliminar() {
         initComponents();
+        llenarjtUsuarios();
+        llenarjbcUsuarios();
 
     }
 
@@ -174,6 +176,17 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
 
         }
     }
+
+    public void llenarjtUsuarios() {
+        DefaultTableModel modelo = (DefaultTableModel) this.jtTecnico.getModel();
+        modelo.setRowCount(0);
+        ArrayList<Tecnico> lista = tecDAO.obtenerTodos();
+        for (Tecnico tmp : lista) {
+            modelo.addRow(new Object[]{tmp.getRun_tec(), tmp.getUsuario(), tmp.getPasswrd()});
+
+        }
+    }
+
     private void btnCrearNuevoTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoTecnicoActionPerformed
         // TODO add your handling code here:
         VentanaAdministradorCrearTecnico VACT = new VentanaAdministradorCrearTecnico();
@@ -207,26 +220,27 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
             DefaultTableModel modelo = (DefaultTableModel) this.jtTecnico.getModel();
             modelo.setRowCount(0); // Limpiar tabla
             String textoBuscar = txtBuscar.getText().trim();
-            
+
             if (textoBuscar.isEmpty()) {
 
                 ArrayList<Tecnico> lista = tecDAO.obtenerTodos();
                 for (Tecnico tmp : lista) {
                     modelo.addRow(new Object[]{tmp.getRun_tec(), tmp.getUsuario(), tmp.getPasswrd()});
                 }
+                llenarjbcUsuarios();
             } else {
-                int runTec = Integer.parseInt(textoBuscar);
-                Tecnico tec = tecDAO.BuscarTecnicoPorRut(runTec);
+                Tecnico tec = tecDAO.BuscarTecnicoPorRut(Integer.parseInt(textoBuscar));
                 if (tec != null) {
                     modelo.addRow(new Object[]{tec.getRun_tec(), tec.getUsuario(), tec.getPasswrd()});
+                    jcbUsuarios.removeAllItems();
+                    jcbUsuarios.addItem(String.valueOf(tec.getRun_tec()));
                 } else {
+                    jcbUsuarios.removeAllItems();
                     JOptionPane.showMessageDialog(this, "No se encontró un técnico con el RUN ingresado.", "Información", JOptionPane.INFORMATION_MESSAGE);
                 }
-                
+
             }
-            
-             llenarjbcUsuarios();
-            
+
         } catch (NumberFormatException e) {
             // Mostrar mensaje si el texto ingresado no es un número
             JOptionPane.showMessageDialog(this, "Ingrese un número válido en el campo de búsqueda.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -240,11 +254,14 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         try {
             String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem();
+
             if (usuarioSeleccionado != null) {
+                int e = Integer.parseInt(usuarioSeleccionado);
+                String nombre = tecDAO.BuscarTecnicoPorRut(e).getUsuario();
                 boolean eliminado = tecDAO.eliminarTecnico(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
                 if (eliminado) {
                     // actualizar tabla
-                    JOptionPane.showMessageDialog(this, "El técnico fue eliminado exitosamente.");
+                    JOptionPane.showMessageDialog(this, (nombre + " fue retirado de la base de datos exitosamente."));
                     DefaultTableModel modelo = (DefaultTableModel) jtTecnico.getModel();
                     modelo.setRowCount(0); // Limpiar tabla
                     ArrayList<Tecnico> lista = tecDAO.obtenerTodos();
@@ -262,7 +279,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
                         jcbUsuarios.addItem(String.valueOf(tec.getRun_tec()));  // Asumimos que getUsuario() devuelve el nombre de usuario
                     }
                 } else {
-                    JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el técnico.");
+                    JOptionPane.showMessageDialog(this, ("Hubo un error al retirar a " + nombre));
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Por favor, seleccione un técnico para eliminar.");
@@ -270,12 +287,14 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         } catch (HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(this, "e.");
         }
+
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
+        String usuarioSeleccionado = jcbUsuarios.getSelectedItem().toString(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
         int usuario = Integer.parseInt(usuarioSeleccionado);
-    
+
         BBDDDAO bddao = new BBDDDAO();
         BBDD bede = new BBDD();
 
@@ -290,7 +309,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
         VP.setTitle("Pacientes");
         VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        JOptionPane.showMessageDialog(this, ("Ingresaste como " + tecDAO.BuscarTecnicoPorRut(usuario).getUsuario()));
+        JOptionPane.showMessageDialog(this, ("Ingresaste como " + tecDAO.BuscarTecnicoPorRut(Integer.parseInt(usuarioSeleccionado)).getUsuario()));
         VP.setVisible(true);
         dispose();
 
