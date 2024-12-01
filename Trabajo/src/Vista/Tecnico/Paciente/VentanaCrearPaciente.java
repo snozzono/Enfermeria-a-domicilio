@@ -5,8 +5,11 @@
  */
 package Vista.Tecnico.Paciente;
 
+import Controlador.BBDDDAO;
 import Controlador.PacienteDAO;
+import Modelo.BBDD;
 import Modelo.Paciente;
+import Vista.Administrador.Cpanel;
 import javax.swing.JOptionPane;
 
 public class VentanaCrearPaciente extends javax.swing.JFrame {
@@ -14,6 +17,11 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
     /**
      * Creates new form VentanaCrearPaciente
      */
+    BBDD bd = new BBDD();
+    BBDDDAO bdDAO = new BBDDDAO();
+
+    PacienteDAO pdao = new PacienteDAO();
+    
     public VentanaCrearPaciente() {
         initComponents();
     }
@@ -123,25 +131,40 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
         diagnostico = txtDiagnostico.getText();
         nombre = txtNombre.getText();
         Rut = Integer.parseInt(txtRut.getText());
+        int tec_run_tec = pdao.buscarPac(Rut).getTec_run_tec();
 
-        Paciente pac = new Paciente(Rut, nombre, diagnostico);
-        PacienteDAO pdao = new PacienteDAO();
+        Paciente pac = new Paciente(Rut, tec_run_tec, nombre, diagnostico);
+        
 
         if (txtDiagnostico.getText().length() > 0 && txtNombre.getText().length() > 0 && txtRut.getText().length() > 0) {
             if (pdao.buscarPac(Rut) == null) {
                 pdao.ingresarPaciente(pac);
                 JOptionPane.showMessageDialog(rootPane, "Paciente agregado");
 
-                VentanaPaciente VP = new VentanaPaciente();
+                if (bdDAO.buscar().getOrigen() == 2) {
 
-                VP.setResizable(false);
-                VP.setLocationRelativeTo(null);
-                VP.setTitle("Pacientes");
-                VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+                    Cpanel VP = new Cpanel();
 
-                VP.setVisible(true);
+                    VP.setResizable(false);
+                    VP.setLocationRelativeTo(null);
+                    VP.setTitle("Pacientes");
+                    VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-                dispose();
+                    VP.setVisible(true);
+
+                    dispose();
+                } else if (bdDAO.buscar().getOrigen() == 3) {
+                    VentanaPaciente VP = new VentanaPaciente();
+
+                    VP.setResizable(false);
+                    VP.setLocationRelativeTo(null);
+                    VP.setTitle("Pacientes");
+                    VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+                    VP.setVisible(true);
+
+                    dispose();
+                }
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ingresa datos validos porfavor.");
@@ -150,17 +173,29 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        VentanaPaciente VP = new VentanaPaciente();
+        if (bdDAO.buscar().getOrigen() == 2) {
+            Cpanel VP = new Cpanel();
 
-        VP.setResizable(false);
-        VP.setLocationRelativeTo(null);
-        VP.setTitle("Pacientes");
-        VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            VP.setResizable(false);
+            VP.setLocationRelativeTo(null);
+            VP.setTitle("Pacientes");
+            VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-        VP.setVisible(true);
-        dispose();
+            VP.setVisible(true);
+            dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+        else if (bdDAO.buscar().getOrigen() == 3) {
+            VentanaPaciente VP = new VentanaPaciente();
 
+            VP.setResizable(false);
+            VP.setLocationRelativeTo(null);
+            VP.setTitle("Pacientes");
+            VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+            VP.setVisible(true);
+            dispose();
+        }
+    }
     /**
      * @param args the command line arguments
      */

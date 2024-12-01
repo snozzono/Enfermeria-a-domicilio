@@ -2,18 +2,20 @@ package Vista.Tecnico.Paciente;
 
 import Controlador.BBDDDAO;
 import Controlador.PacienteDAO;
+import Controlador.TecnicoDAO;
 import Modelo.BBDD;
 import Modelo.Paciente;
 import Modelo.Tecnico;
-import Vista.Administrador.VentanaAdministradorIngresarEliminar;
+import Vista.Administrador.Cpanel;
 import Vista.VentanaPrincipal;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import Vista.Tecnico.Paciente.ProcedimientosMedicamentos.VentanaMain;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 public class VentanaPaciente extends javax.swing.JFrame {
 
@@ -29,6 +31,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
         initComponents();
         llenarjtTable();
         llenarjbcPacientes();
+
     }
 
     /**
@@ -40,24 +43,16 @@ public class VentanaPaciente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnRevisar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtPaciente = new javax.swing.JTable();
         jbcPacientes = new javax.swing.JComboBox<>();
-        btnCrearPaciente = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         txtBuscar = new javax.swing.JTextField();
+        jbTraspasar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnRevisar.setText("Revisar");
-        btnRevisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRevisarActionPerformed(evt);
-            }
-        });
 
         btnEliminar.setText("dar de alta");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -94,13 +89,6 @@ public class VentanaPaciente extends javax.swing.JFrame {
             }
         });
 
-        btnCrearPaciente.setText("Añadir paciente");
-        btnCrearPaciente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearPacienteActionPerformed(evt);
-            }
-        });
-
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +100,13 @@ public class VentanaPaciente extends javax.swing.JFrame {
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
+            }
+        });
+
+        jbTraspasar.setText("Traspasar paciente");
+        jbTraspasar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbTraspasarActionPerformed(evt);
             }
         });
 
@@ -128,9 +123,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnCrearPaciente)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVolver))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -139,8 +132,8 @@ public class VentanaPaciente extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(jbcPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRevisar)
-                        .addGap(18, 18, 18)
+                        .addComponent(jbTraspasar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEliminar)))
                 .addContainerGap())
         );
@@ -156,12 +149,10 @@ public class VentanaPaciente extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEliminar)
-                    .addComponent(btnRevisar)
-                    .addComponent(jbcPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbcPacientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbTraspasar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVolver)
-                    .addComponent(btnCrearPaciente))
+                .addComponent(btnVolver)
                 .addGap(23, 23, 23))
         );
 
@@ -170,7 +161,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
 
-        String run = jbcPacientes.getSelectedItem().toString();
+        String run = (String) jbcPacientes.getSelectedItem();
         if (pacDAO.obtenerTodos().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "No hay pacientes para eliminar");
         } else {
@@ -190,46 +181,12 @@ public class VentanaPaciente extends javax.swing.JFrame {
             }
         }
 
-        /*
-        try {
-            String usuarioSeleccionado = (String) jbcPacientes.getSelectedItem();
-            if (usuarioSeleccionado != null) {
-                boolean eliminado = pacDAO.eliminarPaciente(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
-                if (eliminado) {
-                    // actualizar tabla
-                    JOptionPane.showMessageDialog(this, "El técnico fue eliminado exitosamente.");
-                    llenarjtTable();
-                    // actualizar combobox
-                    llenarjbcPacientes();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Hubo un error al eliminar el paciente.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Por favor, seleccione un paciente para eliminar.");
-            }
-        } catch (HeadlessException | ClassNotFoundException e) {
-            JOptionPane.showMessageDialog(this, "e.");
-        }
-        
-         */
+
      }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnCrearPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPacienteActionPerformed
-        // TODO add your handling code here:
-        VentanaCrearPaciente VCP = new VentanaCrearPaciente();
-
-        VCP.setResizable(false);
-        VCP.setLocationRelativeTo(null);
-        VCP.setTitle("Añadir paciente");
-        VCP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-
-        VCP.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btnCrearPacienteActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        if (bd.getOrigen() == 1) {
+        if (bdao.buscar().getOrigen() == 1) {
             VentanaPrincipal VP = new VentanaPrincipal();
 
             VP.setResizable(false);
@@ -239,8 +196,8 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
             VP.setVisible(true);
             dispose();
-        } else if (bd.getOrigen() == 0) {
-            VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+        } else if (bdao.buscar().getOrigen() == 2) {
+            Cpanel VAIE = new Cpanel();
 
             VAIE.setResizable(false);
             VAIE.setLocationRelativeTo(null);
@@ -315,33 +272,59 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnRevisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarActionPerformed
-        String a = jbcPacientes.getSelectedItem().toString();
-        bd.setPaciente(Integer.parseInt(a));
-        bdao.modificarPaciente(bd);
+    private void jbTraspasarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTraspasarActionPerformed
 
-        VentanaMain VM = new VentanaMain();
+        DefaultComboBoxModel<Integer> comboModel = new DefaultComboBoxModel();
 
-        VM.setResizable(false);
-        VM.setLocationRelativeTo(null);
-        VM.setTitle("Tratamientos");
-        VM.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        TecnicoDAO TDAO = new TecnicoDAO();
+        ArrayList<Tecnico> listaTecnicos = TDAO.obtenerTodos();
+        for (Tecnico temp : listaTecnicos) {
+            comboModel.addElement(temp.getRun_tec());
+        }
 
-        VM.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btnRevisarActionPerformed
+        JComboBox<Integer> comboBox = new JComboBox<>(comboModel);
+        int resultado = JOptionPane.showConfirmDialog(this, comboBox, "Selecciona una opción", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (resultado == JOptionPane.OK_OPTION) {
+            int seleccion = (Integer) comboBox.getSelectedItem();
+
+            if (resultado == JOptionPane.OK_OPTION) {
+
+                int buffer = Integer.parseInt((String) jbcPacientes.getSelectedItem());
+
+                bd.setPaciente(seleccion);
+                bdao.modificarPaciente(bd);
+
+                Paciente pacnuevo = pacDAO.buscarPac(buffer);
+                pacnuevo.setTec_run_tec(seleccion);
+
+                pacDAO.modificarPaciente(pacnuevo, buffer);
+
+                JOptionPane.showMessageDialog(rootPane, "Run cambiado");
+                llenarjbcPacientes();
+                llenarjtTable();
+
+                String pepe = String.valueOf(seleccion);
+
+                JOptionPane.showMessageDialog(this, "Has seleccionado" + seleccion, "Seleccion", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "No se realizó ninguna selección", "Cancelado", JOptionPane.WARNING_MESSAGE);
+            }
+
+            llenarjtTable();
+            llenarjbcPacientes();
+
+    }//GEN-LAST:event_jbTraspasarActionPerformed
+    }
 
     /**
-     * @param args the command line arguments
-     */
-
+         * @param args the command line arguments
+         */
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCrearPaciente;
     private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnRevisar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbTraspasar;
     private javax.swing.JComboBox<String> jbcPacientes;
     private javax.swing.JTable jtPaciente;
     private javax.swing.JTextField txtBuscar;

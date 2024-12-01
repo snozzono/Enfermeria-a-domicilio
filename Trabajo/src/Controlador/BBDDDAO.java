@@ -8,6 +8,7 @@ package Controlador;
 import Modelo.BBDD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,39 +19,42 @@ import java.util.logging.Logger;
  */
 public class BBDDDAO {
 
+    public BBDD buscar() {
+        
+        BBDD tecnico = null;
+        try {
+            Connection con = Conexion.getConexion();
+            String query = "SELECT paciente, tecnico, origen FROM tbdecisiones";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                tecnico = new BBDD();
+                tecnico.setPaciente(rs.getInt("paciente"));
+                tecnico.setTecnico(rs.getInt("tecnico"));
+                tecnico.setOrigen(rs.getInt("origen"));
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return tecnico;
+
+    }
+
     public boolean modificarDecisiones(BBDD bd) {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
-            String query = "update tbDecisiones set llamado=?,Administrador=?, Medicamento=?, Paciente=?, Procedimiento=?, Tecnico=? where llamado=1";
+            String query = "update tbDecisiones set ,Administrador=?, Paciente=?. Tecnico=? where llamado=1";
             PreparedStatement ps = con.prepareStatement(query);
 
-            ps.setInt(0, bd.getLlamado());
             ps.setInt(1, bd.getAdministrador());
-            ps.setInt(2, bd.getMedicamento());
             ps.setInt(3, bd.getPaciente());
-            ps.setInt(4, bd.getProcedimiento());
             ps.setInt(5, bd.getTecnico());
 
             resultado = ps.executeUpdate() == 1;
             ps.close();
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return resultado;
-    }
-
-    public boolean modificarAdministrador(BBDD bd) {
-        boolean resultado = false;
-        try {
-            Connection con = Controlador.Conexion.getConexion();
-            String query = "update tbDecisiones  set Administrador=? where llamado=1";
-            PreparedStatement ps = con.prepareStatement(query);
-
-            ps.setInt(1, bd.getAdministrador());
-
-            resultado = ps.executeUpdate() == 1;
 
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);

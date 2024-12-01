@@ -1,15 +1,21 @@
 package Vista.Administrador;
 
+import Controlador.BBDDDAO;
 import Controlador.TecnicoDAO;
+import Modelo.BBDD;
 import Modelo.Tecnico;
+import Vista.Tecnico.Paciente.VentanaPaciente;
 import javax.swing.JOptionPane;
 
-public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
+public class VentanaCrearTecnico extends javax.swing.JFrame {
 
-    /**
-     * Creates new form VentanaAdministradorCrearTecnico
-     */
-    public VentanaAdministradorCrearTecnico() {
+    BBDD bbdd = new BBDD();
+    BBDDDAO bddao = new BBDDDAO();
+    
+    Tecnico tecnico = new Tecnico();
+    TecnicoDAO tecnicoDAO = new TecnicoDAO();
+
+    public VentanaCrearTecnico() {
         initComponents();
     }
 
@@ -121,18 +127,12 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         TecnicoDAO tecDAO = new TecnicoDAO();
 
         if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && txtContraseña.getText().length() > 0) {
-            if (tecDAO.ValidarTec(usuario, contraseña) == null) {
+            if (tecDAO.ValidarTec(usuario, contraseña) == null && tecDAO.BuscarTecnicoPorRut(rut) == null) {
                 tecDAO.ingresarTecnico(tec);
-                JOptionPane.showMessageDialog(this, "Tecnico añadido correctamente");
-                VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
-
-                VAIE.setResizable(false);
-                VAIE.setLocationRelativeTo(null);
-                VAIE.setTitle("Técnicos");
-                VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-                VAIE.setVisible(true);
-
-                dispose();
+                JOptionPane.showMessageDialog(this, usuario + " añadido correctamente");
+                
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Ese usuario ya está registrado");
             }
         } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos porfavor");
@@ -141,7 +141,7 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
         // TODO add your handling code here:
-        VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+        Cpanel VAIE = new Cpanel();
 
         VAIE.setResizable(false);
         VAIE.setLocationRelativeTo(null);

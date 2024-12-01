@@ -4,17 +4,27 @@ import Controlador.*;
 import Modelo.Administrador;
 import Modelo.BBDD;
 import Modelo.Tecnico;
+import Vista.Administrador.Cpanel;
 import Vista.Tecnico.Paciente.VentanaPaciente;
 import javax.swing.JOptionPane;
-import Vista.Administrador.VentanaAdministradorIngresarEliminar;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     //  VentanaPrincipalIngresar bd = new VentanaPrincipalIngresar();
+    Administrador admin;
+    AdministradorDAO admDAO = new AdministradorDAO();
+
+    Tecnico tecno;
+    TecnicoDAO tecnoDAO = new TecnicoDAO();
+
+    BBDD bede = new BBDD();
+    BBDDDAO bd = new BBDDDAO();
+
     public VentanaPrincipal() {
         initComponents();
+        origen();
     }
 
     /**
@@ -122,31 +132,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         user = txtUsuario.getText();
         psswd = txtContraseña.getText();
 
-        Administrador admin;
-        AdministradorDAO admDAO = new AdministradorDAO();
-
-        Tecnico tecno;
-        TecnicoDAO tecnoDAO = new TecnicoDAO();
-
-        BBDDDAO bd = new BBDDDAO();
-        BBDD bede = new BBDD();
-
         bede.setOrigen(1);
+        bd.modificarOrigen(bede);
 
         if (user.trim().length() == 0 && psswd.trim().length() == 0) {
             JOptionPane.showMessageDialog(rootPane, "Casillas vacias");
         } else if (admDAO.validarAdm(user, psswd) != null) {
-            VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
+            Cpanel VAIE = new Cpanel();
 
             VAIE.setResizable(false);
             VAIE.setLocationRelativeTo(null);
-            VAIE.setTitle("Técnicos");
+            VAIE.setTitle("Cpanel");
             VAIE.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-            admin = admDAO.validarAdm(user, psswd);
-
-            bede.setAdministrador(admin.getId_admin());
-            bd.modificarAdministrador(bede);
 
             JOptionPane.showMessageDialog(this, ("Bienvenid@, " + user));
             VAIE.setVisible(true);
@@ -176,18 +174,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    public void origen(){
+        
+        bede.setOrigen(1);
+        bd.modificarOrigen(bede);
+        
+        
+    }
+    
     public static void main(String[] args) {
         // TODO code application logic here
         VentanaPrincipal v = new VentanaPrincipal();
 
         v.setResizable(false);
         v.setLocationRelativeTo(null);
-        v.setTitle("Inicio");
+        v.setTitle("Bienvenida");
         v.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         v.setVisible(true);
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;

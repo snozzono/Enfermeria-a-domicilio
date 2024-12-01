@@ -2,23 +2,29 @@
 package Modelo;
 
 public class Paciente {
-    int run_pac;
+    int run_pac, tec_run_tec;
     String nombre_p, diagn;
 
-    public Paciente(int run_pac, String nombre_p, String diagn) {
+    public Paciente(int run_pac, int tec_run_tec, String nombre_p, String diagn) {
         this.run_pac = run_pac;
         this.nombre_p = nombre_p;
         this.diagn = diagn;
-    }
-
-    public Paciente(int run_pac) {
-        this.run_pac = run_pac;
+        this.tec_run_tec = tec_run_tec;
     }
 
     public Paciente() {
 
     }
 
+    public int getTec_run_tec() {
+        return tec_run_tec;
+    }
+
+    public void setTec_run_tec(int tec_run_tec) {
+        this.tec_run_tec = tec_run_tec;
+    }
+
+    
     public int getRun_pac() {
         return run_pac;
     }
