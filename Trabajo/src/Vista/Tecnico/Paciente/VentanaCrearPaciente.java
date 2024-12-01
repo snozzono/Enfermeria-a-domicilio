@@ -121,7 +121,7 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         // TODO add your handling code here:
-        String diagnostico, nombre;
+        /*String diagnostico, nombre;
         int Rut;
 
         diagnostico = txtDiagnostico.getText();
@@ -141,7 +141,7 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ingresa datos validos porfavor.");
-        }
+        }*/
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

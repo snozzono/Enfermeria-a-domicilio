@@ -2,9 +2,9 @@ package Vista;
 
 import Controlador.AuxiliarDAO;
 import Controlador.PacienteDAO;
+import Controlador.ProcedimientoDAO;
 import Controlador.RemedioDAO;
 import Controlador.TecnicoDAO;
-import Modelo.Paciente;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -19,7 +19,7 @@ public class VentanaDatos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabbedDatos = new javax.swing.JTabbedPane();
         infoPacientes = new javax.swing.JPanel();
         scrollDatosP = new javax.swing.JScrollPane();
         tablaP = new javax.swing.JTable();
@@ -52,7 +52,8 @@ public class VentanaDatos extends javax.swing.JFrame {
         boxSearchTr = new javax.swing.JComboBox<>();
         btnBuscarTr = new javax.swing.JButton();
         btnMostrarTr = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        checkPagados = new javax.swing.JCheckBox();
+        checkNoPaga = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,24 +184,22 @@ public class VentanaDatos extends javax.swing.JFrame {
                     .addComponent(boxSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(infoPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(infoPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnMostrarPac)
+                        .addComponent(btnBuscarP))
                     .addGroup(infoPacientesLayout.createSequentialGroup()
-                        .addGroup(infoPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnMostrarPac)
-                            .addComponent(btnBuscarP))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoPacientesLayout.createSequentialGroup()
                         .addGroup(infoPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(checkCronico)
                             .addComponent(checkDeuda))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(infoPacientesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(checkNoD)
-                            .addComponent(checkNoCr))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(checkNoCr))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(scrollDatosP, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTabbedPane1.addTab("Pacientes", infoPacientes);
+        tabbedDatos.addTab("Pacientes", infoPacientes);
 
         tablaT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -292,7 +291,7 @@ public class VentanaDatos extends javax.swing.JFrame {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Técnicos", infoTecnicos);
+        tabbedDatos.addTab("Técnicos", infoTecnicos);
 
         tablaR.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -384,7 +383,7 @@ public class VentanaDatos extends javax.swing.JFrame {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Remedios", infoRemedios);
+        tabbedDatos.addTab("Remedios", infoRemedios);
 
         tablaTr.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -401,7 +400,7 @@ public class VentanaDatos extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.Object.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -412,6 +411,7 @@ public class VentanaDatos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaTr.setColumnSelectionAllowed(true);
         scrollDatosTr.setViewportView(tablaTr);
         tablaTr.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -442,7 +442,19 @@ public class VentanaDatos extends javax.swing.JFrame {
             }
         });
 
-        jCheckBox1.setText("Pagados");
+        checkPagados.setText("Pagados");
+        checkPagados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPagadosActionPerformed(evt);
+            }
+        });
+
+        checkNoPaga.setText("No pagados");
+        checkNoPaga.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkNoPagaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout infoTratamientoLayout = new javax.swing.GroupLayout(infoTratamiento);
         infoTratamiento.setLayout(infoTratamientoLayout);
@@ -450,19 +462,21 @@ public class VentanaDatos extends javax.swing.JFrame {
             infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoTratamientoLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scrollDatosTr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnBuscarTr, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnMostrarTr))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
-                        .addComponent(txtSearchTr)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(boxSearchTr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(57, 57, Short.MAX_VALUE))
+                .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(scrollDatosTr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
+                            .addComponent(checkPagados)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuscarTr, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnMostrarTr))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
+                            .addComponent(txtSearchTr)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(boxSearchTr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(checkNoPaga))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         infoTratamientoLayout.setVerticalGroup(
             infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,13 +489,15 @@ public class VentanaDatos extends javax.swing.JFrame {
                 .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnBuscarTr)
                     .addComponent(btnMostrarTr)
-                    .addComponent(jCheckBox1))
-                .addGap(36, 36, 36)
+                    .addComponent(checkPagados))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkNoPaga)
+                .addGap(11, 11, 11)
                 .addComponent(scrollDatosTr, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Tratamientos", infoTratamiento);
+        tabbedDatos.addTab("Tratamientos", infoTratamiento);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -489,14 +505,14 @@ public class VentanaDatos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabbedDatos)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(49, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabbedDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
 
@@ -654,8 +670,8 @@ public class VentanaDatos extends javax.swing.JFrame {
 
             modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[3]});
         }
-        
-        
+
+
     }//GEN-LAST:event_btnMostrarPacActionPerformed
 
     private void btnBuscarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPActionPerformed
@@ -760,13 +776,13 @@ public class VentanaDatos extends javax.swing.JFrame {
             txtSearch.setText("");
             txtSearch.requestFocus();
         }
-        
+
         checkDeuda.setSelected(false);
         checkCronico.setSelected(false);
 
         checkNoD.setSelected(false);
         checkNoCr.setSelected(false);
-        
+
         checkDeuda.setEnabled(true);
         checkCronico.setEnabled(true);
 
@@ -834,13 +850,20 @@ public class VentanaDatos extends javax.swing.JFrame {
 
                     break;
                 case 2:
-                    query = "Select id_med from tbMedicamento WHERE pac_run_pac = ?";
-                    adds = p.selectSearch(false, -1, cod, query, "id_med", p);
-                    for (int i = 0; i < adds.size(); i++) {
-                        if (!hits.contains(adds.get(i))) {
-                            hits.add(adds.get(i));
+                    try {
+                        int ID = Integer.parseInt(cod);
+
+                        query = "Select id_med from tbMedicamento WHERE pac_run_pac = ?";
+                        adds = p.selectSearch(false, ID, "", query, "id_med", p);
+                        for (int i = 0; i < adds.size(); i++) {
+                            if (!hits.contains(adds.get(i))) {
+                                hits.add(adds.get(i));
+                            }
                         }
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Ingresa un número en la búsqueda.");
                     }
+
                     txtSearchR.setText("");
                     txtSearchR.requestFocus();
 
@@ -885,8 +908,8 @@ public class VentanaDatos extends javax.swing.JFrame {
             modelo.addRow(new Object[]{rp[0], rp[1], rp[2]});
         }
 
-        txtSearchT.setText("");
-        txtSearchT.requestFocus();
+        txtSearchR.setText("");
+        txtSearchR.requestFocus();
     }//GEN-LAST:event_btnMostrarRActionPerformed
 
     private void txtSearchTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchTrActionPerformed
@@ -898,11 +921,132 @@ public class VentanaDatos extends javax.swing.JFrame {
     }//GEN-LAST:event_boxSearchTrActionPerformed
 
     private void btnBuscarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTrActionPerformed
-        // TODO add your handling code here:
+
+        checkPagados.setEnabled(true);
+        checkNoPaga.setEnabled(true);
+
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaTr.getModel();
+        modelo.setRowCount(0);
+
+        ArrayList<Integer> hits = new ArrayList<>();
+        ArrayList<Integer> adds;
+
+        AuxiliarDAO p = new AuxiliarDAO();
+        ProcedimientoDAO pro = new ProcedimientoDAO();
+
+        String cod, query;
+        int tipo = 0;
+
+        cod = txtSearchTr.getText();
+
+        if (boxSearchTr.getSelectedItem().equals("Código")) {
+            tipo = 1;
+        }
+        if (boxSearchTr.getSelectedItem().equals("Paciente")) {
+            tipo = 2;
+        }
+
+        if ("".equals(cod)) {
+            if (!checkPagados.isSelected() && !checkNoPaga.isSelected()) {
+                JOptionPane.showMessageDialog(this, "Ingrese un término de búsqueda o elija mostrar todos.");
+                boxSearchTr.requestFocus();
+            }
+
+            if (checkPagados.isSelected() || checkNoPaga.isSelected()) {
+                boolean paga = false;
+
+                if (checkPagados.isSelected()) {
+                    paga = true;
+                }
+                query = "Select id_pr from tbProcedimiento WHERE pago = ?";
+                adds = p.selectSearch(paga, -1, "", query, "id_pr", p);
+
+                for (int i = 0; i < adds.size(); i++) {
+                    if (!hits.contains(adds.get(i))) {
+                        hits.add(adds.get(i));
+                    }
+                }
+            }
+        } else {
+            switch (tipo) {
+                case 1:
+                    try {
+                        int ID = Integer.parseInt(cod);
+                        query = "Select id_pr from tbProcedimiento WHERE id_pr = ?";
+
+                        adds = p.selectSearch(false, ID, "", query, "id_pr", p);
+
+                        for (int i = 0; i < adds.size(); i++) {
+                            if (!hits.contains(adds.get(i))) {
+                                hits.add(adds.get(i));
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Ingresa un número en la búsqueda.");
+                    }
+                    txtSearchTr.setText("");
+                    txtSearchTr.requestFocus();
+
+                    break;
+
+                case 2:
+                    try {
+                        int ID = Integer.parseInt(cod);
+                        query = "Select id_pr from tbProcedimiento WHERE pac_run_pac = ?";
+                        adds = p.selectSearch(false, ID, "", query, "id_pr", p);
+                        for (int i = 0; i < adds.size(); i++) {
+                            if (!hits.contains(adds.get(i))) {
+                                hits.add(adds.get(i));
+                            }
+                        }
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(this, "Ingresa un número en la búsqueda.");
+                    }
+                    txtSearchTr.setText("");
+                    txtSearchTr.requestFocus();
+
+                    break;
+            }
+
+        }
+
+        hits.sort(null);
+        ArrayList<String> str;
+
+        for (int i = 0; i < hits.size(); i++) {
+            query = "SELECT * from tbProcedimiento where id_pr=" + hits.get(i);
+
+            str = pro.view(query);
+
+            String[] rp = str.get(0).split(",");
+
+            modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[3]});
+        }
+
+        checkPagados.setSelected(false);
+        checkNoPaga.setSelected(false);
+
     }//GEN-LAST:event_btnBuscarTrActionPerformed
 
     private void btnMostrarTrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarTrActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) this.tablaTr.getModel();
+        modelo.setRowCount(0);
+
+        ArrayList<String> str;
+        ProcedimientoDAO pro = new ProcedimientoDAO();
+
+        String query = "SELECT * from tbProcedimiento";
+
+        str = pro.view(query);
+
+        for (int i = 0; i < str.size(); i++) {
+            String[] rp = str.get(i).split(",");
+
+            modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[3]});
+        }
+
+        txtSearchTr.setText("");
+        txtSearchTr.requestFocus();
     }//GEN-LAST:event_btnMostrarTrActionPerformed
 
     private void checkCronicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkCronicoActionPerformed
@@ -920,6 +1064,14 @@ public class VentanaDatos extends javax.swing.JFrame {
     private void checkNoDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkNoDActionPerformed
         checkDeuda.setEnabled(false);
     }//GEN-LAST:event_checkNoDActionPerformed
+
+    private void checkPagadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPagadosActionPerformed
+        checkNoPaga.setEnabled(false);
+    }//GEN-LAST:event_checkPagadosActionPerformed
+
+    private void checkNoPagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkNoPagaActionPerformed
+        checkPagados.setEnabled(false);
+    }//GEN-LAST:event_checkNoPagaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -939,16 +1091,17 @@ public class VentanaDatos extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkDeuda;
     private javax.swing.JCheckBox checkNoCr;
     private javax.swing.JCheckBox checkNoD;
+    private javax.swing.JCheckBox checkNoPaga;
+    private javax.swing.JCheckBox checkPagados;
     private javax.swing.JPanel infoPacientes;
     private javax.swing.JPanel infoRemedios;
     private javax.swing.JPanel infoTecnicos;
     private javax.swing.JPanel infoTratamiento;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JScrollPane scrollDatosP;
     private javax.swing.JScrollPane scrollDatosR;
     private javax.swing.JScrollPane scrollDatosT;
     private javax.swing.JScrollPane scrollDatosTr;
+    private javax.swing.JTabbedPane tabbedDatos;
     private javax.swing.JTable tablaP;
     private javax.swing.JTable tablaR;
     private javax.swing.JTable tablaT;

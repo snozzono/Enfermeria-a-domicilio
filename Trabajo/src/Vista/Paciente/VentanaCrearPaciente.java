@@ -124,7 +124,7 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
         
         PacienteDAO pdao = new PacienteDAO();
 
-        if (txtDiagnostico.getText().length() > 0 && txtNombre.getText().length() > 0 && txtRut.getText().length() > 0) {
+        /*if (txtDiagnostico.getText().length() > 0 && txtNombre.getText().length() > 0 && txtRut.getText().length() > 0) {
             if (pdao.buscarPac(Rut) == null) {
                 pdao.ingresarPaciente(pac);
                 JOptionPane.showMessageDialog(rootPane, "Paciente agregado");
@@ -134,7 +134,7 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ingresa datos validos porfavor.");
-        }
+        }*/
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed

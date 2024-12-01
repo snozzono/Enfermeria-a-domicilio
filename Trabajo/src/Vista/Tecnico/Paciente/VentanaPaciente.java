@@ -6,7 +6,7 @@ import Modelo.BBDD;
 import Modelo.Paciente;
 import Modelo.Tecnico;
 import Vista.Administrador.VentanaAdministradorIngresarEliminar;
-import Vista.VentanaPrincipal;
+/*import Vista.VentanaPrincipal;*/
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -166,7 +166,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        try {
+        /*try {
             String usuarioSeleccionado = (String) jbcPacientes.getSelectedItem();
             if (usuarioSeleccionado != null) {
                 boolean eliminado = pacDAO.eliminarPaciente(usuarioSeleccionado); //quizá deberia modificar esto para que pase por la bd y no por codigo 
@@ -197,7 +197,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
             }
         } catch (HeadlessException | ClassNotFoundException e) {
             JOptionPane.showMessageDialog(this, "e.");
-        }
+        }*/
      }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnCrearPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearPacienteActionPerformed
@@ -215,7 +215,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        if (bd.getOrigen() == 1) {
+        /*if (bd.getOrigen() == 1) {
             VentanaPrincipal VP = new VentanaPrincipal();
 
             VP.setResizable(false);
@@ -235,23 +235,23 @@ public class VentanaPaciente extends javax.swing.JFrame {
 
             VAIE.setVisible(true);
             dispose();
-        }
+        }*/
     }//GEN-LAST:event_btnVolverActionPerformed
 
 
     private void jbcPacientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbcPacientesActionPerformed
-        jbcPacientes.setEnabled(true);
+        /*jbcPacientes.setEnabled(true);
         jbcPacientes.removeAllItems();
         ArrayList<Paciente> listaPacientes = pacDAO.obtenerTodos();
         for (Paciente temp : listaPacientes) {
             jbcPacientes.addItem(String.valueOf(temp.getRun_pac()));
         }
         jbcPacientes.revalidate();
-        jbcPacientes.repaint();
+        jbcPacientes.repaint();*/
     }//GEN-LAST:event_jbcPacientesActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        try {
+        /*try {
 
             DefaultTableModel modelo = (DefaultTableModel) this.jtPaciente.getModel();
             modelo.setRowCount(0); // Limpiar tabla
@@ -281,7 +281,7 @@ public class VentanaPaciente extends javax.swing.JFrame {
         } catch (HeadlessException e) {
             // Capturar errores generales para evitar bloqueos
             JOptionPane.showMessageDialog(this, "Ocurrió un error inesperado: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 

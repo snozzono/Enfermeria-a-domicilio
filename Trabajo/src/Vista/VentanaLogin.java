@@ -1,11 +1,8 @@
 package Vista;
 
 import Controlador.*;
-import Modelo.Administrador;
 import Modelo.BBDD;
-import Modelo.Tecnico;
 import Vista.Administrador.VentanaAdmin;
-import Vista.Administrador.VentanaRegAdmin;
 import Vista.Paciente.VentanaPaciente;
 import Vista.Tecnico.VentanaTecnico;
 import javax.swing.JOptionPane;
@@ -49,10 +46,22 @@ public class VentanaLogin extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(750, 650));
         setResizable(false);
         setSize(new java.awt.Dimension(750, 650));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                frameOpenWindow(evt);
+            }
+        });
 
         panelLogin.setBackground(new java.awt.Color(255, 255, 255));
 
+        txtContraseña.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtContraseñaActionPerformed(evt);
+            }
+        });
+
         btnLimpiar.setText("Limpiar");
+        btnLimpiar.setSelected(true);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -104,11 +113,11 @@ public class VentanaLogin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(panelLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPass)
-                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
                 .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -135,6 +144,7 @@ public class VentanaLogin extends javax.swing.JFrame {
                 menuCerrarSesionActionPerformed(evt);
             }
         });
+        menuCerrarSesion.setEnabled(false);
         menuUsuario.add(menuCerrarSesion);
 
         mnbrVP.add(menuUsuario);
@@ -183,7 +193,7 @@ public class VentanaLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(panelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         pack();
@@ -197,49 +207,51 @@ public class VentanaLogin extends javax.swing.JFrame {
         char[] psswd;
         user = txtUsuario.getText();
         psswd = txtContraseña.getPassword();
-        int ID;
 
-        AdministradorDAO admDAO = new AdministradorDAO();
+        String str;
+        str = new String(psswd);
+        
+        AuxiliarDAO aux = new AuxiliarDAO();
+
         String queryAdm = "Select id_admin from tbAdministrador WHERE usuario = ? AND passwrd = ?";
+        int validA = aux.validarUser(user, psswd, queryAdm, aux);
 
-        TecnicoDAO tecDAO = new TecnicoDAO();
         String queryTec = "Select run_tec from tbTecnico WHERE usuario = ? AND passwrd = ?";
+        int validT = aux.validarUser(user, psswd, queryTec, aux);
 
         BBDDDAO bd = new BBDDDAO();
         BBDD bede = new BBDD();
 
         bede.setOrigen(1);
 
-        if (admDAO.validar(user, psswd, queryAdm, admDAO) != -1) {
-            ID = admDAO.validar(user, psswd, queryAdm, admDAO);
-
-            bede.setAdministrador(ID);
+        if (validA != -1) {            
+            bede.setAdministrador(validA);
             bd.modificarAdministrador(bede);
+            
+            VentanaAdmin v = new VentanaAdmin();
 
-            VentanaAdmin VAdmin = new VentanaAdmin();
-            
-            VAdmin.setLocationRelativeTo(null);
-            VAdmin.setResizable(false);
-            VAdmin.setVisible(true);
-            
+            v.setLocationRelativeTo(null);
+            v.setResizable(false);
+            v.setVisible(true);
+
             this.setVisible(false);
 
-        } else if (tecDAO.validar(user, psswd, queryTec, tecDAO) != 1) {
-            ID = tecDAO.validar(user, psswd, queryTec, tecDAO);
-            
-            bede.setTecnico(ID);
+        } else if (validT != -1) {
+
+            bede.setTecnico(validT);
             bd.modificarTecnico(bede);
 
-            VentanaTecnico Vtec = new VentanaTecnico();
+            VentanaTecnico v = new VentanaTecnico();
 
-            Vtec.setLocationRelativeTo(null);
-            Vtec.setResizable(false);
-            Vtec.setVisible(true);
-            
+            v.setLocationRelativeTo(null);
+            v.setResizable(false);
+            v.setVisible(true);
+
             this.setVisible(false);
 
         } else {
             JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.");
+            btnLimpiar.doClick();
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -260,7 +272,7 @@ public class VentanaLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_menuActDatosActionPerformed
 
     private void menuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCerrarSesionActionPerformed
-        int choice = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION);
+        int choice = JOptionPane.showConfirmDialog(this, "¿Desea cerrar?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION);
 
         if (choice == 0) {
             VentanaLogin v = new VentanaLogin();
@@ -268,9 +280,8 @@ public class VentanaLogin extends javax.swing.JFrame {
             v.setLocationRelativeTo(null);
             v.setResizable(false);
             v.setVisible(true);
-
-            this.dispose();
         }
+        
     }//GEN-LAST:event_menuCerrarSesionActionPerformed
 
     private void menuNavRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNavRegActionPerformed
@@ -303,7 +314,15 @@ public class VentanaLogin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_menuNavTecActionPerformed
 
+    private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed
+    }//GEN-LAST:event_txtContraseñaActionPerformed
+
+    private void frameOpenWindow(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_frameOpenWindow
+        btnLimpiar.doClick();
+    }//GEN-LAST:event_frameOpenWindow
+
     public static void main(String[] args) {
+        
         VentanaLogin v = new VentanaLogin();
 
         v.setResizable(false);

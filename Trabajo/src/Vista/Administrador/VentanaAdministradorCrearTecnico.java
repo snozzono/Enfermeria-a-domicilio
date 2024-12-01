@@ -121,16 +121,17 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
         int rut;
         String usuario;
         char[] contrasenia;
-        
+
         rut = Integer.parseInt(txtRut.getText());
         usuario = txtUsuario.getText();
         contrasenia = pswdCrearTec.getPassword();
 
         Tecnico tec = new Tecnico(rut, usuario, contrasenia);
-        TecnicoDAO tecDAO = new TecnicoDAO();
+        /*TecnicoDAO tecDAO = new TecnicoDAO();  
 
-        if (txtRut.getText().length() > 0 && txtUsuario.getText().length() > 0 && Arrays.toString(pswdCrearTec.getPassword()).length() > 0) {
-            if (tecDAO.validar(usuario, contrasenia) == null) {
+        if (txtRut.getText()
+                .length() > 0 && txtUsuario.getText().length() > 0 && Arrays.toString(pswdCrearTec.getPassword()).length() > 0) {
+            if (tecDAO.validar(usuario, contrasenia,) == null) {
                 tecDAO.ingresarTecnico(tec);
                 JOptionPane.showMessageDialog(this, "Tecnico añadido correctamente");
                 VentanaAdministradorIngresarEliminar VAIE = new VentanaAdministradorIngresarEliminar();
@@ -145,7 +146,7 @@ public class VentanaAdministradorCrearTecnico extends javax.swing.JFrame {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Ingresa datos validos porfavor");
-        }
+        }*/
     }//GEN-LAST:event_brnCrearActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

@@ -148,14 +148,12 @@ public class VentanaAdmin extends javax.swing.JFrame {
     private void menuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCerrarSesionActionPerformed
         int choice = JOptionPane.showConfirmDialog(this, "¿Desea cerrar sesión?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION);
 
-        if (choice == 0) {
+        if (choice == 0) {            
             VentanaLogin v = new VentanaLogin();
 
             v.setLocationRelativeTo(null);
             v.setResizable(false);
             v.setVisible(true);
-
-            this.dispose();
         }
     }//GEN-LAST:event_menuCerrarSesionActionPerformed
 

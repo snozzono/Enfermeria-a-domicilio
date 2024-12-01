@@ -242,7 +242,7 @@ public class VistaActUsuario extends javax.swing.JFrame {
 
             String query = "Select id_admin from tbAdministrador WHERE usuario = ? AND passwrd = ?";
 
-            int ID = admDAO.validar(user, psswd, query, admDAO);
+            int ID = admDAO.validarUser(user, psswd, query, admDAO);
 
             if (ID != 1) {
                 txtID.setText(String.valueOf(ID));
@@ -257,7 +257,7 @@ public class VistaActUsuario extends javax.swing.JFrame {
 
             String query = "Select run_tec from tbTecnico WHERE usuario = ? AND passwrd = ?";
 
-            int ID = tecDAO.validar(user, psswd, query, tecDAO);
+            int ID = tecDAO.validarUser(user, psswd, query, tecDAO);
             if (ID != 1) {
                 txtID.setText(String.valueOf(ID));
                 txtID.setEnabled(false);

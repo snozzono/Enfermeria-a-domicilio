@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,11 +38,9 @@ public class AuxiliarDAO {
             PreparedStatement ps = con.prepareStatement(query);
             if (ID != -1) {
                 ps.setInt(1, ID);
-            }
-            else if(!"".equals(n)){
+            } else if (!"".equals(n)) {
                 ps.setString(1, n);
-            }
-            else {
+            } else {
                 ps.setBoolean(1, crit);
             }
             ResultSet rs = ps.executeQuery();
@@ -50,6 +49,7 @@ public class AuxiliarDAO {
                 int hit = rs.getInt(tipo_id);
                 hits.add(hit);
             }
+
             ps.close();
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
@@ -71,20 +71,26 @@ public class AuxiliarDAO {
         return arr;
     }
 
-    public int validar(String user, char[] pswd, String query, Object obj) {
+    public int validarUser(String user, char[] pswd, String query, Object obj) {
+        int r = -1;
+
         try {
             String str;
             str = new String(pswd);
 
             Connection con = Conexion.getConexion();
-            PreparedStatement ps = con.prepareStatement(query);
+
+            PreparedStatement ps = con.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
             ps.setString(1, user);
             ps.setString(2, str);
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt(1);
+            rs.beforeFirst();
+
+            while (rs.next()) {
+                r = rs.getInt(1);
             }
 
             ps.close();
@@ -92,13 +98,43 @@ public class AuxiliarDAO {
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
         }
+
+        return r;
+    }
+
+    public int validar(int ID, String query, String cod, Object obj) {
+        try {
+
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            if (ID != -1) {
+                ps.setInt(1, ID);
+            } else {
+                ps.setString(1, cod);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            ps.close();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
         return -1;
     }
 
-    public int buscar(int ID, String query, Object obj) {
+    public int buscar(int ID, String query, Object obj, String cod) {
         try {
             Connection con = Conexion.getConexion();
             PreparedStatement ps = con.prepareStatement(query);
+
+            if (ID == -1) {
+                ps.setString(1, cod);
+            }
+
             ps.setInt(1, ID);
 
             ResultSet rs = ps.executeQuery();

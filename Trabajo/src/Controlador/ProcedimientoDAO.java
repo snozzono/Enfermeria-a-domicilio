@@ -141,8 +141,11 @@ public class ProcedimientoDAO extends AuxiliarDAO {
         }
         return tec;
     }
+
     
-    public String view(String query){
+    public ArrayList<String> view(String query){
+        ArrayList<String> str = new ArrayList<>();
+        
         try {
             Connection con = Conexion.getConexion();
             PreparedStatement ps = con.prepareStatement(query);
@@ -156,14 +159,15 @@ public class ProcedimientoDAO extends AuxiliarDAO {
                 int precio = rs.getInt("precio");
                 boolean pago = rs.getBoolean("pago");
                 Date tomar = rs.getDate("fecha");
+                int pac = rs.getInt("pac_run_pac");
 
-                return (id + ", " + nombre + ", " + desc + "," + precio + "," + pago + "," + tomar);
+                str.add (id + ", " + nombre + ", " + desc + "," + pac + "," + precio + "," + pago + "," + tomar);
             }
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return "";
+        return str;
     }
 
 }
