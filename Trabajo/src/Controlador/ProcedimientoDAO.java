@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProcedimientoDAO {
+public class ProcedimientoDAO extends AuxiliarDAO {
 
     public boolean ingresarProc(Procedimiento pr) {
         boolean resultado = false;
@@ -140,6 +140,30 @@ public class ProcedimientoDAO {
             Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tec;
+    }
+    
+    public String view(String query){
+        try {
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id_pr");
+                String nombre = rs.getString("nombre");
+                String desc = rs.getString("descr");
+                int precio = rs.getInt("precio");
+                boolean pago = rs.getBoolean("pago");
+                Date tomar = rs.getDate("fecha");
+
+                return (id + ", " + nombre + ", " + desc + "," + precio + "," + pago + "," + tomar);
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ProcedimientoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "";
     }
 
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PacienteDAO {
+public class PacienteDAO extends AuxiliarDAO {
 
     public boolean ingresarPaciente(Paciente p) {
         boolean resultado = false;
@@ -83,7 +83,7 @@ public class PacienteDAO {
         return resultado;
     }
 
-    public Paciente buscarPac(int rut) {
+    /*public Paciente buscarPac(int rut) {
         Paciente paciente = null;
         try {
             Connection con = Conexion.getConexion();
@@ -102,25 +102,31 @@ public class PacienteDAO {
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return paciente;
-    }
 
-    public ArrayList<Paciente> obtenerTodos() {
-        ArrayList<Paciente> tec = new ArrayList<>();
+    }*/
+
+
+    public ArrayList<String> view(String query){
+        ArrayList<String> str = new ArrayList<>();
+        
         try {
             Connection con = Conexion.getConexion();
-            String query = "SELECT run_pac, nombre_p,diagn FROM tbPaciente where tec_run_tec = (SELECT tecnico FROM  tbdecisiones)";
             PreparedStatement ps = con.prepareStatement(query);
 
             ResultSet rs = ps.executeQuery();
-            Paciente cc;
-            while (rs.next()) {
-                cc = new Paciente(rs.getInt("run_pac"), rs.getString("nombre_p"), rs.getString("diagn"));
-                tec.add(cc);
-            }
 
+            while (rs.next()) {
+                int run = rs.getInt("run_pac");
+                String nombre = rs.getString("nombre_p");
+                String d = rs.getString("diagn");
+                int tec = rs.getInt("tec_run_tec");
+                
+                str.add(run + ", " + nombre + ", " + d + "," + tec);
+            }
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PacienteDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return tec;
+
+        return str;
     }
 }

@@ -11,33 +11,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class AdministradorDAO extends VistasControl{
+public class AdministradorDAO extends AuxiliarDAO{
 
     public boolean ingresarAdmin(Administrador adm) {
         boolean resultado = false;
         try {
             Connection con = Controlador.Conexion.getConexion();
             String query = "insert into tbAdministrador (id_admin,usuario,passwrd) values(?,?,?)";
-            PreparedStatement ps = con.prepareStatement(query);
-
-            ps.setInt(1, adm.getId_admin());
-            ps.setString(2, adm.getUsuario());
-            ps.setObject(3, Arrays.toString(adm.getPasswrd()));
-
-            resultado = ps.executeUpdate() == 1;
-            ps.close();
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return resultado;
-    }
-
-    public boolean modificarAdmin(Administrador adm) {
-        boolean resultado = false;
-        try {
-            Connection con = Controlador.Conexion.getConexion();
-            String query = "update tbAministrador set Usuario=?,Passwrd=? where Id_admin=?";
             PreparedStatement ps = con.prepareStatement(query);
 
             ps.setInt(1, adm.getId_admin());
@@ -87,29 +67,25 @@ public class AdministradorDAO extends VistasControl{
         }
         return adm;
     }
-
-    @Override
-    public Administrador validar(String user, char[] pswd) {
-        Administrador administrador = null;
+    
+    public String view(String query){
         try {
-            String str;
-            str = new String(pswd);
-                    
             Connection con = Conexion.getConexion();
-            String query;
-            query = "SELECT id_admin, usuario, passwrd FROM tbAdministrador WHERE usuario = ? AND passwrd = ?";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, user);
-            ps.setString(2, str);
-                        
+
             ResultSet rs = ps.executeQuery();
-            
+
             while (rs.next()) {
-                administrador = new Administrador(rs.getInt("id_admin"), rs.getString("usuario"), rs.getString("passwrd").toCharArray());
+                int id = rs.getInt("id_admin");
+                String user = rs.getString("usuario");
+                String pass = rs.getString("passwrd");
+
+                return (id + ", " + user + ", " + pass);
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return administrador;
+
+        return "";
     }
 }

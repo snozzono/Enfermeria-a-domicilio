@@ -3,6 +3,8 @@ package Vista;
 import Controlador.AdministradorDAO;
 import Controlador.Conexion;
 import Controlador.TecnicoDAO;
+import Modelo.Administrador;
+import Modelo.Tecnico;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,13 +37,18 @@ public class VistaActUsuario extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtNewUser = new javax.swing.JTextField();
+        btnConfirmar = new javax.swing.JButton();
+        pswdUpdate = new javax.swing.JPasswordField();
+        btnVolver = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Enfermería a domicilio - Actualizar datos");
         setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         setMinimumSize(new java.awt.Dimension(500, 650));
         setName("VActUsuario"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(500, 650));
         setSize(new java.awt.Dimension(500, 650));
 
         llbUsuario.setText("Usuario");
@@ -94,6 +101,30 @@ public class VistaActUsuario extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Nuevo Usuario");
+
+        jLabel5.setText("Nueva Contraseña");
+
+        txtNewUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNewUserActionPerformed(evt);
+            }
+        });
+
+        btnConfirmar.setText("Confirmar");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmarActionPerformed(evt);
+            }
+        });
+
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -105,9 +136,10 @@ public class VistaActUsuario extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnChoiceTec)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnLogin))
+                                .addGap(30, 30, 30))
                             .addComponent(btnChoiceAdmin))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnLogin)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,22 +151,30 @@ public class VistaActUsuario extends javax.swing.JFrame {
                                     .addComponent(pswdActuser, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(llbUsuario))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 132, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1)
-                        .addContainerGap())
+                    .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(93, 93, 93)
-                                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel2))
-                        .addContainerGap(141, Short.MAX_VALUE))))
+                                .addComponent(btnVolver)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnConfirmar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNewUser, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                                    .addComponent(txtID)
+                                    .addComponent(pswdUpdate))))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -149,24 +189,36 @@ public class VistaActUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPass)
                     .addComponent(pswdActuser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnChoiceAdmin)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(48, 48, 48)
                         .addComponent(btnLogin))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnChoiceAdmin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnChoiceTec)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtNewUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(pswdUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnConfirmar)
+                    .addComponent(btnVolver))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -186,83 +238,111 @@ public class VistaActUsuario extends javax.swing.JFrame {
 
         if (btnChoiceAdmin.isSelected()) {
             AdministradorDAO admDAO;
-
             admDAO = new AdministradorDAO();
 
-            if (admDAO.validar(user, psswd) != null) {
-                try {
-                    Connection con = Conexion.getConexion();
-                    String query = "Select id_admin from tbAdministrador WHERE usuario = ? AND passwrd = ?";
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setString(1, user);
-                    ps.setString(2, str);
+            String query = "Select id_admin from tbAdministrador WHERE usuario = ? AND passwrd = ?";
 
-                    ResultSet rs = ps.executeQuery();
+            int ID = admDAO.validar(user, psswd, query, admDAO);
 
-                    if (rs.next()) {
-                        int ID = rs.getInt("id_admin");
-                        txtID.setText(String.valueOf(ID));
-                        txtID.setEnabled(false);
-                    }
-
-                    ps.close();
-                    logged = true;
-
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(AdministradorDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (ID != 1) {
+                txtID.setText(String.valueOf(ID));
+                txtID.setEnabled(false);
             }
+
+            logged = true;
+
         } else if (btnChoiceTec.isSelected()) {
             TecnicoDAO tecDAO;
             tecDAO = new TecnicoDAO();
 
-            if (tecDAO.validar(user, psswd) != null) {
-                try {
-                    Connection con = Conexion.getConexion();
-                    String query = "Select run_tec from tbTecnico WHERE usuario = ? AND passwrd = ?";
-                    PreparedStatement ps = con.prepareStatement(query);
-                    ps.setString(1, user);
-                    ps.setString(2, str);
+            String query = "Select run_tec from tbTecnico WHERE usuario = ? AND passwrd = ?";
 
-                    ResultSet rs = ps.executeQuery();
-
-                    if (rs.next()) {
-                        int ID = rs.getInt("run_tec");
-                        txtID.setText(String.valueOf(ID));
-                        txtID.setEnabled(false);
-                    }
-
-                    ps.close();
-                    logged = true;
-
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            int ID = tecDAO.validar(user, psswd, query, tecDAO);
+            if (ID != 1) {
+                txtID.setText(String.valueOf(ID));
+                txtID.setEnabled(false);
             }
-        }
-        else{
+            logged = true;
+        } else {
             JOptionPane.showMessageDialog(this, "Por favor, seleccione un tipo de usuario.");
             btnChoiceAdmin.requestFocus();
         }
-        
-        if(logged){
+        if (logged) {
             txtUsuario.setEnabled(false);
             pswdActuser.setEnabled(false);
-            
+
             btnLogin.setEnabled(false);
+        } else if (logged == false) {
+            JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos");
         }
-        
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void pswdActuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pswdActuserActionPerformed
     }//GEN-LAST:event_pswdActuserActionPerformed
 
     private void btnChoiceAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoiceAdminActionPerformed
-
     }//GEN-LAST:event_btnChoiceAdminActionPerformed
 
     private void txtIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDActionPerformed
     }//GEN-LAST:event_txtIDActionPerformed
+
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        String user, str1, code;
+        char[] pass;
+        int id;
+
+        user = txtNewUser.getText();
+        pass = pswdUpdate.getPassword();
+        str1 = new String(pass);
+
+        code = txtID.getText();
+        id = Integer.valueOf(code);
+
+        if (btnChoiceAdmin.isSelected()) {
+            String query = "update tbAdministrador set Usuario=?,Passwrd=? where id_admin=?";
+
+            Administrador adm = new Administrador(id, user, pass);
+            AdministradorDAO admDAO = new AdministradorDAO();
+
+            if (admDAO.modificar(admDAO, query, user, str1, id)) {
+                JOptionPane.showMessageDialog(this, "Modificado con éxito.");
+
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Hubo un error.");
+                txtNewUser.setText("");
+                pswdUpdate.setText("");
+
+                txtNewUser.requestFocus();
+            }
+        } else if (btnChoiceTec.isSelected()) {
+            Tecnico tec = new Tecnico(id, user, pass);
+            TecnicoDAO tecDAO = new TecnicoDAO();
+
+            String query = "update tbTecnico set Usuario=?,Passwrd=? where run_tec=?";
+
+            if (tecDAO.modificar(tecDAO, query, user, str1, id)) {
+                JOptionPane.showMessageDialog(this, "Modificado con éxito.");
+
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Hubo un error.");
+
+                txtNewUser.setText("");
+                pswdUpdate.setText("");
+
+                txtNewUser.requestFocus();
+            }
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void txtNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNewUserActionPerformed
+    }//GEN-LAST:event_txtNewUserActionPerformed
+
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnVolverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -270,15 +350,21 @@ public class VistaActUsuario extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnChoice;
     private javax.swing.JRadioButton btnChoiceAdmin;
     private javax.swing.JRadioButton btnChoiceTec;
+    private javax.swing.JButton btnConfirmar;
     private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel lblPass;
     private javax.swing.JLabel llbUsuario;
     private javax.swing.JPasswordField pswdActuser;
+    private javax.swing.JPasswordField pswdUpdate;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtNewUser;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

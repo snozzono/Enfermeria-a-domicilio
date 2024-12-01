@@ -4,8 +4,8 @@ import Controlador.BBDDDAO;
 import Controlador.TecnicoDAO;
 import Modelo.BBDD;
 import Modelo.Tecnico;
-import Vista.Tecnico.Paciente.VentanaPaciente;
-import Vista.VentanaPrincipal;
+import Vista.Paciente.VentanaPaciente;
+import Vista.VentanaLogin;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -190,12 +190,12 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
 
-        VentanaPrincipal VP = new VentanaPrincipal();
+        VentanaLogin VP = new VentanaLogin();
         
         VP.setResizable(false);
         VP.setLocationRelativeTo(null);
         VP.setTitle("Pacientes");
-        VP.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        VP.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         VP.setVisible(true);
         dispose();

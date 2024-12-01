@@ -52,7 +52,6 @@ public class Procedimiento {
         this.nombre = nombre;
     }
 
-   
     public String getDescr() {
         return descr;
     }

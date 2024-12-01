@@ -1,6 +1,5 @@
 package Controlador;
 
-import Modelo.Administrador;
 import Modelo.Tecnico;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class TecnicoDAO extends VistasControl{
+public class TecnicoDAO extends AuxiliarDAO{
 
     public boolean ingresarTecnico(Tecnico tec) {
         boolean resultado = false;
@@ -69,26 +68,6 @@ public class TecnicoDAO extends VistasControl{
         }
         return resultado;
     }
-
-    public boolean modificarTecnico(Tecnico tec) {
-        boolean resultado = false;
-        try {
-            Connection con = Controlador.Conexion.getConexion();
-            String query = "update tbTecnico set Usuario=?,Passwrd=? where Run_tec=?";
-            PreparedStatement ps = con.prepareStatement(query);
-
-            ps.setInt(1, tec.getRun_tec());
-            ps.setString(2, tec.getUsuario());
-            ps.setString(3, Arrays.toString(tec.getPasswrd()));
-
-            resultado = ps.executeUpdate() == 1;
-            ps.close();
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return resultado;
-    }
     
     public ArrayList<Tecnico> obtenerTodos() {
         ArrayList<Tecnico> tec = new ArrayList<>();
@@ -109,32 +88,7 @@ public class TecnicoDAO extends VistasControl{
         }
         return tec;
     }
-
-    @Override
-    public Tecnico validar(String adm, char[] pswd) {
-        Tecnico tecnico = null;
-        try {
-            String str;
-            str = new String(pswd);
-            
-            Connection con = Conexion.getConexion();
-            String query = "select run_tec, usuario, passwrd from tbTecnico where usuario=? AND passwrd=?";
-            PreparedStatement ps = con.prepareStatement(query);
-
-            ps.setString(1, adm);
-            ps.setString(2, str);
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                tecnico = new Tecnico(rs.getInt("run_tec"), rs.getString("usuario"), rs.getString("passwrd").toCharArray());
-            }
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return tecnico;
-    }
-
+    
     public Tecnico BuscarTecnicoPorRut(int run_tec) {
         Tecnico tecnico = new Tecnico();
         try {
@@ -155,5 +109,28 @@ public class TecnicoDAO extends VistasControl{
             Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return tecnico;
+    }
+    
+    public ArrayList<String> view(String query){
+        ArrayList<String> str = new ArrayList<>();
+        
+        try {
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int run = rs.getInt("run_tec");
+                String usuario = rs.getString("usuario");
+                int adm = rs.getInt("admin_id_admin");
+                
+                str.add(run + ", " + usuario + ", " + adm);
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(TecnicoDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return str;
     }
 }
