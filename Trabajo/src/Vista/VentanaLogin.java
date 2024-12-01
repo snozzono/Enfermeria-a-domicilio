@@ -292,6 +292,7 @@ public class VentanaLogin extends javax.swing.JFrame {
         v.setVisible(true);
 
         this.setVisible(false);
+        
     }//GEN-LAST:event_menuNavRegActionPerformed
 
     private void menuNavPacActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNavPacActionPerformed

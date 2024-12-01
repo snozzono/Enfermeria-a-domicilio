@@ -1,8 +1,11 @@
 package Controlador;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -149,6 +152,59 @@ public class AuxiliarDAO {
             Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return -1;
+    }
+
+    public String aCSV(String str) {
+        if (str == null) {
+            str = "";
+        } else if (str.contains(",") || str.contains("\n") || str.startsWith("\"") || str.contains(";")) {
+            str = "\"" + str.replace("\"", "\"\"") + "\"";
+        }
+
+        return str;
+    }
+
+    public void exportar(String query, String path) throws IOException {
+        try {
+            ArrayList<String> col = new ArrayList<>();
+            ArrayList<String> row = new ArrayList<>();
+
+            Connection con = Conexion.getConexion();
+            PreparedStatement ps = con.prepareStatement(query);
+
+            ResultSet rs = ps.executeQuery();
+            ResultSetMetaData rmeta = rs.getMetaData();
+
+            int colN = rmeta.getColumnCount();
+
+            for (int i = 1; i <= colN; i++) {
+                String str = aCSV(rmeta.getColumnName(i));
+                col.add(str);
+            }
+
+            try (FileWriter fw = new FileWriter(path)) {
+
+                fw.write(String.join(";", col) + "\n");
+
+                while (rs.next()) {
+                    row.clear();
+                    
+                    for (int i = 1; i <= colN; i++) {
+                        String str = aCSV(rs.getString(i));
+
+                        row.add(str);
+                    }
+                    
+                    fw.write(String.join(";", row) + "\n");
+                    
+                }
+
+            }
+
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(AuxiliarDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

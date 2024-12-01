@@ -1,11 +1,18 @@
 package Vista;
 
+import Controlador.AdministradorDAO;
 import Controlador.AuxiliarDAO;
 import Controlador.PacienteDAO;
 import Controlador.ProcedimientoDAO;
 import Controlador.RemedioDAO;
 import Controlador.TecnicoDAO;
+import java.awt.Frame;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,6 +26,7 @@ public class VentanaDatos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fChooseExp = new javax.swing.JFileChooser();
         tabbedDatos = new javax.swing.JTabbedPane();
         infoPacientes = new javax.swing.JPanel();
         scrollDatosP = new javax.swing.JScrollPane();
@@ -54,8 +62,21 @@ public class VentanaDatos extends javax.swing.JFrame {
         btnMostrarTr = new javax.swing.JButton();
         checkPagados = new javax.swing.JCheckBox();
         checkNoPaga = new javax.swing.JCheckBox();
+        btnVolver = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
+
+        fChooseExp.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                fChooseExpComponentShown(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         tablaP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -288,7 +309,7 @@ public class VentanaDatos extends javax.swing.JFrame {
                     .addComponent(btnMostrarT))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollDatosT, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbedDatos.addTab("Técnicos", infoTecnicos);
@@ -380,7 +401,7 @@ public class VentanaDatos extends javax.swing.JFrame {
                     .addComponent(btnMostrarR))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(scrollDatosR, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbedDatos.addTab("Remedios", infoRemedios);
@@ -462,20 +483,23 @@ public class VentanaDatos extends javax.swing.JFrame {
             infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoTratamientoLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(scrollDatosTr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
-                            .addComponent(checkPagados)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarTr, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnMostrarTr))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
-                            .addComponent(txtSearchTr)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(boxSearchTr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(checkNoPaga))
+                .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(scrollDatosTr, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 466, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
+                        .addComponent(txtSearchTr)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boxSearchTr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, infoTratamientoLayout.createSequentialGroup()
+                        .addGroup(infoTratamientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(infoTratamientoLayout.createSequentialGroup()
+                                .addComponent(checkPagados)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnBuscarTr, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(infoTratamientoLayout.createSequentialGroup()
+                                .addComponent(checkNoPaga)
+                                .addGap(284, 284, 284)))
+                        .addComponent(btnMostrarTr)))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         infoTratamientoLayout.setVerticalGroup(
@@ -494,10 +518,24 @@ public class VentanaDatos extends javax.swing.JFrame {
                 .addComponent(checkNoPaga)
                 .addGap(11, 11, 11)
                 .addComponent(scrollDatosTr, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tabbedDatos.addTab("Tratamientos", infoTratamiento);
+
+        btnVolver.setText("Volver");
+        btnVolver.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverActionPerformed(evt);
+            }
+        });
+
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -505,15 +543,25 @@ public class VentanaDatos extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabbedDatos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabbedDatos)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnExportar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnVolver)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(49, Short.MAX_VALUE)
-                .addComponent(tabbedDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(tabbedDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVolver)
+                    .addComponent(btnExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -1073,6 +1121,110 @@ public class VentanaDatos extends javax.swing.JFrame {
         checkPagados.setEnabled(false);
     }//GEN-LAST:event_checkNoPagaActionPerformed
 
+    private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        Frame[] fr = Vista.VentanaLogin.getFrames();
+
+        if (fr.length > 0) {
+            fr[0].setVisible(true);
+        }
+
+        dispose();
+
+    }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
+        int tipo;
+        String query = "";
+
+        AuxiliarDAO aux = new AdministradorDAO();
+
+        if (infoPacientes.isShowing()) {
+            tipo = 1;
+        } else if (infoTecnicos.isShowing()) {
+            tipo = 2;
+        } else if (infoRemedios.isShowing()) {
+            tipo = 3;
+        } else {
+            tipo = 4;
+        }
+
+        switch (tipo) {
+            case 1:
+                query = "SELECT * from tbPaciente";
+                break;
+            case 2:
+                query = "SELECT * from tbTecnico";
+                break;
+            case 3:
+                query = "SELECT * from tbMedicamento";
+                break;
+            case 4:
+                query = "SELECT * from tbProcedimiento";
+                break;
+        }
+
+        JFileChooser fChoose = new JFileChooser();
+        fChoose.setVisible(true);
+        
+        fChoose.showDialog(this, "Aceptar");
+
+        String path = fChoose.getSelectedFile().getPath() + ".csv";
+
+        JOptionPane.showMessageDialog(this, query + " " + path);
+
+        try {
+            aux.exportar(query, path);
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /*String[] op = {"Aceptar", "Cancelar"};*/
+
+        /*int choice = JOptionPane.showOptionDialog(this, "¿Exportar registros de tabla actual?", "Exportar", 1, 2, null, op, null);
+
+        if (choice == 0) {
+
+            try {
+                switch (tipo) {
+                    case 1:
+                        query = "SELECT * from tbPaciente";
+                        break;
+                    case 2:
+                        query = "SELECT * from tbTecnico";
+                        break;
+                    case 3:
+                        query = "SELECT * from tbMedicamento";
+                        break;
+                    case 4:
+                        query = "SELECT * from tbProcedimiento";
+                        break;
+                }
+
+                JFileChooser fChoose = new JFileChooser();
+                fChoose.setVisible(true);
+
+                String path = fChoose.getSelectedFile().getPath() + ".csv";
+
+                JOptionPane.showMessageDialog(this, query + " " + path + ".csv");
+
+                aux.exportar(query, path);
+
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaDatos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }*/
+
+    }//GEN-LAST:event_btnExportarActionPerformed
+
+    private void fChooseExpComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_fChooseExpComponentShown
+
+    }//GEN-LAST:event_fChooseExpComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> boxSearch;
@@ -1083,16 +1235,19 @@ public class VentanaDatos extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarR;
     private javax.swing.JButton btnBuscarT;
     private javax.swing.JButton btnBuscarTr;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnMostrarPac;
     private javax.swing.JButton btnMostrarR;
     private javax.swing.JButton btnMostrarT;
     private javax.swing.JButton btnMostrarTr;
+    private javax.swing.JButton btnVolver;
     private javax.swing.JCheckBox checkCronico;
     private javax.swing.JCheckBox checkDeuda;
     private javax.swing.JCheckBox checkNoCr;
     private javax.swing.JCheckBox checkNoD;
     private javax.swing.JCheckBox checkNoPaga;
     private javax.swing.JCheckBox checkPagados;
+    private javax.swing.JFileChooser fChooseExp;
     private javax.swing.JPanel infoPacientes;
     private javax.swing.JPanel infoRemedios;
     private javax.swing.JPanel infoTecnicos;
