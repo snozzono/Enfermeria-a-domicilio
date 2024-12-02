@@ -7,14 +7,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AuxiliarDAO {
-
-    public boolean modificar(Object obj, String query, String user, String pass, int ID) {
+    
+    public boolean modificarUser(Object obj, String query, String user, String pass, int ID) {
         boolean resultado = false;
 
         try {
@@ -60,6 +59,30 @@ public class AuxiliarDAO {
         return hits;
     }
 
+    public boolean eliminar(ArrayList<Integer> arr, Object obj, String query) {
+        boolean resultado = false;
+
+        try {
+            Connection con = Conexion.getConexion();
+            
+            PreparedStatement ps = null;
+            
+            for (int i = 0; i < arr.size(); i++) {
+                ps = con.prepareStatement(query);
+                ps.setInt(1, arr.get(i));
+                
+                resultado = ps.executeUpdate() == 1;
+            }
+            
+            ps.close();
+            
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return resultado;
+    }
+
     public ArrayList dupla(ArrayList arr) {
 
         for (int i = 1; i < arr.size(); i++) {
@@ -103,30 +126,6 @@ public class AuxiliarDAO {
         }
 
         return r;
-    }
-
-    public int validar(int ID, String query, String cod, Object obj) {
-        try {
-
-            Connection con = Conexion.getConexion();
-            PreparedStatement ps = con.prepareStatement(query);
-
-            if (ID != -1) {
-                ps.setInt(1, ID);
-            } else {
-                ps.setString(1, cod);
-            }
-
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-            ps.close();
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(obj.getClass().getName()).log(Level.SEVERE, null, ex);
-        }
-        return -1;
     }
 
     public int buscar(int ID, String query, Object obj, String cod) {
@@ -188,15 +187,15 @@ public class AuxiliarDAO {
 
                 while (rs.next()) {
                     row.clear();
-                    
+
                     for (int i = 1; i <= colN; i++) {
                         String str = aCSV(rs.getString(i));
 
                         row.add(str);
                     }
-                    
+
                     fw.write(String.join(";", row) + "\n");
-                    
+
                 }
 
             }

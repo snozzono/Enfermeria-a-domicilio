@@ -4,7 +4,7 @@ import Controlador.BBDDDAO;
 import Controlador.TecnicoDAO;
 import Modelo.BBDD;
 import Modelo.Tecnico;
-import Vista.Paciente.VentanaPaciente;
+import Vista.Paciente.VentanaPac;
 import Vista.VentanaLogin;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
@@ -273,7 +273,7 @@ public class VentanaAdministradorIngresarEliminar extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String usuarioSeleccionado = (String) jcbUsuarios.getSelectedItem(); //esta linea deberia estar hecha para seleccionar el tecnico especifico pero no se como haerlo
-        VentanaPaciente VP = new VentanaPaciente();
+        VentanaPac VP = new VentanaPac();
 
         VP.setResizable(false);
         VP.setLocationRelativeTo(null);

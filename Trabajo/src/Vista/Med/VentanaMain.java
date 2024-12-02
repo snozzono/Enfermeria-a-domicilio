@@ -5,7 +5,7 @@ import Controlador.ProcedimientoDAO;
 import Modelo.Medicamento;
 import Modelo.Procedimiento;
 import Modelo.Tecnico;
-import Vista.Paciente.VentanaPaciente;
+import Vista.Paciente.VentanaPac;
 import java.awt.HeadlessException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -221,7 +221,7 @@ public class VentanaMain extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        VentanaPaciente VP = new VentanaPaciente();
+        VentanaPac VP = new VentanaPac();
         
         VP.setResizable(false);
         VP.setLocationRelativeTo(null);

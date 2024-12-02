@@ -1,16 +1,9 @@
 package Vista;
 
 import Controlador.AdministradorDAO;
-import Controlador.Conexion;
 import Controlador.TecnicoDAO;
 import Modelo.Administrador;
 import Modelo.Tecnico;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class VistaActUsuario extends javax.swing.JFrame {
@@ -84,6 +77,11 @@ public class VistaActUsuario extends javax.swing.JFrame {
 
         btnChoice.add(btnChoiceTec);
         btnChoiceTec.setText("Soy técnico");
+        btnChoiceTec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChoiceTecActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setForeground(new java.awt.Color(51, 51, 51));
 
@@ -134,9 +132,7 @@ public class VistaActUsuario extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnChoiceTec)
-                                .addGap(30, 30, 30))
+                            .addComponent(btnChoiceTec)
                             .addComponent(btnChoiceAdmin))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnLogin)
@@ -244,12 +240,12 @@ public class VistaActUsuario extends javax.swing.JFrame {
 
             int ID = admDAO.validarUser(user, psswd, query, admDAO);
 
-            if (ID != 1) {
+            if (ID != -1) {
                 txtID.setText(String.valueOf(ID));
                 txtID.setEnabled(false);
-            }
 
-            logged = true;
+                logged = true;
+            }
 
         } else if (btnChoiceTec.isSelected()) {
             TecnicoDAO tecDAO;
@@ -258,23 +254,38 @@ public class VistaActUsuario extends javax.swing.JFrame {
             String query = "Select run_tec from tbTecnico WHERE usuario = ? AND passwrd = ?";
 
             int ID = tecDAO.validarUser(user, psswd, query, tecDAO);
-            if (ID != 1) {
+            if (ID != -1) {
                 txtID.setText(String.valueOf(ID));
                 txtID.setEnabled(false);
+
+                logged = true;
             }
-            logged = true;
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor, seleccione un tipo de usuario.");
-            btnChoiceAdmin.requestFocus();
         }
+        
         if (logged) {
             txtUsuario.setEnabled(false);
             pswdActuser.setEnabled(false);
 
             btnLogin.setEnabled(false);
-        } else if (logged == false) {
-            JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos");
         }
+        if (logged == false && !btnChoiceTec.isSelected() && !btnChoiceAdmin.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione un tipo de usuario.");
+            
+            btnChoiceAdmin.requestFocus();
+        }
+        
+        else if (logged == false && (btnChoiceTec.isSelected() || btnChoiceAdmin.isSelected())) {
+            JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos");
+            
+            txtUsuario.setText("");
+            pswdActuser.setText("");
+            
+            btnChoiceAdmin.setSelected(false);
+            btnChoiceTec.setSelected(false);
+            
+            txtUsuario.requestFocus();
+        }
+
 
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -288,53 +299,64 @@ public class VistaActUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIDActionPerformed
 
     private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
-        String user, str1, code;
-        char[] pass;
-        int id;
 
-        user = txtNewUser.getText();
-        pass = pswdUpdate.getPassword();
-        str1 = new String(pass);
+        String u = txtUsuario.getText();
+        String p = new String(pswdActuser.getPassword());
 
-        code = txtID.getText();
-        id = Integer.valueOf(code);
+        if ("".equals(u) || "".equals(p)) {
+            JOptionPane.showMessageDialog(this, "Verifíquese antes de continuar");
 
-        if (btnChoiceAdmin.isSelected()) {
-            String query = "update tbAdministrador set Usuario=?,Passwrd=? where id_admin=?";
+            txtUsuario.requestFocus();
+        } else {
+            String user, str1, code;
+            char[] pass;
+            int id;
+            user = txtNewUser.getText();
+            pass = pswdUpdate.getPassword();
+            str1 = new String(pass);
+            code = txtID.getText();
+            id = Integer.valueOf(code);
 
-            Administrador adm = new Administrador(id, user, pass);
-            AdministradorDAO admDAO = new AdministradorDAO();
+            if (btnChoiceAdmin.isSelected()) {
+                String query = "update tbAdministrador set Usuario=?,Passwrd=? where id_admin=?";
 
-            if (admDAO.modificar(admDAO, query, user, str1, id)) {
-                JOptionPane.showMessageDialog(this, "Modificado con éxito.");
+                Administrador adm = new Administrador(id, user, pass);
+                AdministradorDAO admDAO = new AdministradorDAO();
 
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Hubo un error.");
-                txtNewUser.setText("");
-                pswdUpdate.setText("");
+                if (admDAO.modificarUser(admDAO, query, user, str1, id)) {
+                    JOptionPane.showMessageDialog(this, "Modificado con éxito.");
 
-                txtNewUser.requestFocus();
-            }
-        } else if (btnChoiceTec.isSelected()) {
-            Tecnico tec = new Tecnico(id, user, pass);
-            TecnicoDAO tecDAO = new TecnicoDAO();
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo un error.");
+                    txtNewUser.setText("");
+                    pswdUpdate.setText("");
 
-            String query = "update tbTecnico set Usuario=?,Passwrd=? where run_tec=?";
+                    txtNewUser.requestFocus();
+                }
+            } else if (btnChoiceTec.isSelected()) {
+                Tecnico tec = new Tecnico(id, user, pass);
+                TecnicoDAO tecDAO = new TecnicoDAO();
 
-            if (tecDAO.modificar(tecDAO, query, user, str1, id)) {
-                JOptionPane.showMessageDialog(this, "Modificado con éxito.");
+                String query = "update tbTecnico set Usuario=?,Passwrd=? where run_tec=?";
 
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Hubo un error.");
+                if (tecDAO.modificarUser(tecDAO, query, user, str1, id)) {
+                    JOptionPane.showMessageDialog(this, "Modificado con éxito.");
 
-                txtNewUser.setText("");
-                pswdUpdate.setText("");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Hubo un error.");
 
-                txtNewUser.requestFocus();
+                    txtNewUser.setText("");
+                    pswdUpdate.setText("");
+
+                    txtNewUser.requestFocus();
+                }
+
             }
         }
+
+
     }//GEN-LAST:event_btnConfirmarActionPerformed
 
     private void txtNewUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNewUserActionPerformed
@@ -343,6 +365,10 @@ public class VistaActUsuario extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnChoiceTecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChoiceTecActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnChoiceTecActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

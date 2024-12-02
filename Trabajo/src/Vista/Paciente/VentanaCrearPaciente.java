@@ -128,7 +128,7 @@ public class VentanaCrearPaciente extends javax.swing.JFrame {
             if (pdao.buscarPac(Rut) == null) {
                 pdao.ingresarPaciente(pac);
                 JOptionPane.showMessageDialog(rootPane, "Paciente agregado");
-                VentanaPaciente VP = new VentanaPaciente();
+                VentanaPac VP = new VentanaPac();
                 VP.setVisible(true);
                 dispose();
             }

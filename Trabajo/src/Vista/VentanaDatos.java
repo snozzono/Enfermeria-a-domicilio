@@ -26,7 +26,6 @@ public class VentanaDatos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        fChooseExp = new javax.swing.JFileChooser();
         tabbedDatos = new javax.swing.JTabbedPane();
         infoPacientes = new javax.swing.JPanel();
         scrollDatosP = new javax.swing.JScrollPane();
@@ -64,12 +63,6 @@ public class VentanaDatos extends javax.swing.JFrame {
         checkNoPaga = new javax.swing.JCheckBox();
         btnVolver = new javax.swing.JButton();
         btnExportar = new javax.swing.JButton();
-
-        fChooseExp.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                fChooseExpComponentShown(evt);
-            }
-        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -716,7 +709,7 @@ public class VentanaDatos extends javax.swing.JFrame {
         for (int i = 0; i < str.size(); i++) {
             String[] rp = str.get(i).split(",");
 
-            modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[3]});
+            modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[4]});
         }
 
 
@@ -810,7 +803,7 @@ public class VentanaDatos extends javax.swing.JFrame {
 
             String[] rp = str.get(0).split(",");
 
-            modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[3]});
+            modelo.addRow(new Object[]{rp[0], rp[1], rp[2], rp[4]});
         }
 
         if (hits.isEmpty()) {
@@ -1182,48 +1175,7 @@ public class VentanaDatos extends javax.swing.JFrame {
             Logger.getLogger(VentanaDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        /*String[] op = {"Aceptar", "Cancelar"};*/
-
-        /*int choice = JOptionPane.showOptionDialog(this, "¿Exportar registros de tabla actual?", "Exportar", 1, 2, null, op, null);
-
-        if (choice == 0) {
-
-            try {
-                switch (tipo) {
-                    case 1:
-                        query = "SELECT * from tbPaciente";
-                        break;
-                    case 2:
-                        query = "SELECT * from tbTecnico";
-                        break;
-                    case 3:
-                        query = "SELECT * from tbMedicamento";
-                        break;
-                    case 4:
-                        query = "SELECT * from tbProcedimiento";
-                        break;
-                }
-
-                JFileChooser fChoose = new JFileChooser();
-                fChoose.setVisible(true);
-
-                String path = fChoose.getSelectedFile().getPath() + ".csv";
-
-                JOptionPane.showMessageDialog(this, query + " " + path + ".csv");
-
-                aux.exportar(query, path);
-
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaDatos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }*/
-
     }//GEN-LAST:event_btnExportarActionPerformed
-
-    private void fChooseExpComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_fChooseExpComponentShown
-
-    }//GEN-LAST:event_fChooseExpComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1247,7 +1199,6 @@ public class VentanaDatos extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkNoD;
     private javax.swing.JCheckBox checkNoPaga;
     private javax.swing.JCheckBox checkPagados;
-    private javax.swing.JFileChooser fChooseExp;
     private javax.swing.JPanel infoPacientes;
     private javax.swing.JPanel infoRemedios;
     private javax.swing.JPanel infoTecnicos;

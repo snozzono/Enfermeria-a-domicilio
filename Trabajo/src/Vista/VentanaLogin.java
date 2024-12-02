@@ -3,6 +3,7 @@ package Vista;
 import Controlador.*;
 import Modelo.BBDD;
 import Vista.Administrador.VentanaAdmin;
+import Vista.Paciente.VentanaPac;
 import Vista.Paciente.VentanaPaciente;
 import Vista.Tecnico.VentanaTecnico;
 import javax.swing.JOptionPane;
@@ -139,11 +140,6 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         menuCerrarSesion.setText("Cerrar sesión");
         menuCerrarSesion.setToolTipText("No hay sesión iniciada");
-        menuCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuCerrarSesionActionPerformed(evt);
-            }
-        });
         menuCerrarSesion.setEnabled(false);
         menuUsuario.add(menuCerrarSesion);
 
@@ -186,7 +182,7 @@ public class VentanaLogin extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(panelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,19 +266,6 @@ public class VentanaLogin extends javax.swing.JFrame {
 
         v.setVisible(true);
     }//GEN-LAST:event_menuActDatosActionPerformed
-
-    private void menuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuCerrarSesionActionPerformed
-        int choice = JOptionPane.showConfirmDialog(this, "¿Desea cerrar?", "Cerrar sesión", JOptionPane.OK_CANCEL_OPTION);
-
-        if (choice == 0) {
-            VentanaLogin v = new VentanaLogin();
-
-            v.setLocationRelativeTo(null);
-            v.setResizable(false);
-            v.setVisible(true);
-        }
-        
-    }//GEN-LAST:event_menuCerrarSesionActionPerformed
 
     private void menuNavRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuNavRegActionPerformed
         VentanaDatos v = new VentanaDatos();
